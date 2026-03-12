@@ -7,7 +7,6 @@ import Reveal from "@/components/Reveal";
 export default function Home() {
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -62,14 +61,15 @@ export default function Home() {
               transition={{ delay: 0.9, duration: 0.5 }}
               className="flex flex-wrap items-center justify-center gap-3 mb-10"
             >
-              {["AUTOMATION", "DATA", "PERFORMANCE"].map((pill, i) => (
-                <span
-                  key={pill}
-                  className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full"
-                >
-                  {pill}
-                </span>
-              ))}
+              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
+                AUTOMATION
+              </span>
+              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
+                DATA
+              </span>
+              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
+                PERFORMANCE
+              </span>
             </motion.div>
 
             <motion.div
@@ -104,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats Section */}
       <Reveal>
         <section className="px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-black/20">
           <div className="max-w-7xl mx-auto">
@@ -173,12 +172,11 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* Statement Section */}
       <Reveal>
         <section className="px-6 lg:px-8 py-20">
           <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
             <h2 className="text-4xl md:text-5xl font-black uppercase mb-6 leading-tight">
-              We Don&apos;t Run Campaigns.
+              We Do Not Run Campaigns.
               <br />
               <span className="text-teal">We Build Growth Systems.</span>
             </h2>
@@ -189,7 +187,6 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* What We Build */}
       <section className="px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto">
           <Reveal>
@@ -204,7 +201,7 @@ export default function Home() {
             <Reveal delay={0}>
               <div className="glass glass-hover rounded-2xl p-8 h-full">
                 <h3 className="text-xl font-bold uppercase mb-3 text-teal">
-                  AI Strategy & Automation
+                  AI Strategy and Automation
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
                   Intelligent systems that work 24/7
@@ -215,7 +212,7 @@ export default function Home() {
             <Reveal delay={0.1}>
               <div className="glass glass-hover rounded-2xl p-8 h-full">
                 <h3 className="text-xl font-bold uppercase mb-3 text-teal">
-                  Performance & Data Intelligence
+                  Performance and Data Intelligence
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
                   Real-time optimization and insights
@@ -237,7 +234,6 @@ export default function Home() {
         </section>
       </section>
 
-      {/* Marketing Engineered */}
       <Reveal>
         <section className="px-6 lg:px-8 py-20">
           <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
@@ -266,7 +262,6 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* Why Valmont */}
       <section className="px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <Reveal>
