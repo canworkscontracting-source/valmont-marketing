@@ -1,0 +1,7 @@
+To add your favicon:
+
+1. Create a favicon.ico file (16x16 or 32x32 pixels)
+2. Replace this file with your favicon.ico
+3. Or use a service like https://favicon.io to generate one
+
+For now, the site will use the default Next.js favicon.
