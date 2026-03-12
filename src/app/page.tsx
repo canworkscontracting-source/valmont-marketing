@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 export default function Home() {
   return (
     <main className="min-h-screen">
+      {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -104,6 +105,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Stats Section */}
       <Reveal>
         <section className="px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-black/20">
           <div className="max-w-7xl mx-auto">
@@ -172,6 +174,7 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/* Tagline Section */}
       <Reveal>
         <section className="px-6 lg:px-8 py-20">
           <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
@@ -187,6 +190,7 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/* What We Build Section */}
       <section className="px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto">
           <Reveal>
@@ -231,9 +235,10 @@ export default function Home() {
               </div>
             </Reveal>
           </div>
-        </section>
+        </div>
       </section>
 
+      {/* Marketing Engineered Section */}
       <Reveal>
         <section className="px-6 lg:px-8 py-20">
           <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
@@ -262,6 +267,7 @@ export default function Home() {
         </section>
       </Reveal>
 
+      {/* Final CTA Section */}
       <section className="px-6 lg:px-8 py-20">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <Reveal>
