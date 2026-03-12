@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 lg:px-8 min-h-screen flex items-center">
-        <div className="max-w-7xl mx-auto w-full">
+      <section className="relative pt-32 pb-20 px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -54,63 +54,94 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto"
+              className="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto"
             >
               Elite marketing solutions for brands that refuse to settle.
             </motion.p>
 
-            {/* CTA Button - FIXED TO GO TO CONTACT */}
+            {/* Pills */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.5 }}
+              className="flex flex-wrap items-center justify-center gap-3 mb-10"
+            >
+              {["AUTOMATION", "DATA", "PERFORMANCE"].map((pill, i) => (
+                <span
+                  key={pill}
+                  className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full"
+                  style={{ animationDelay: `${i * 0.1}s` }}
+                >
+                  {pill}
+                </span>
+              ))}
+            </motion.div>
+
+            {/* CTA Buttons - FIXED */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
+              transition={{ delay: 1.1, duration: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Link
                 href="/contact"
-                className="inline-block px-12 py-5 text-base font-bold tracking-wide uppercase bg-white hover:bg-gray-100 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105"
+                className="px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
               >
                 Start Your Journey
               </Link>
+              <Link
+                href="/systems"
+                className="px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
+              >
+                View Our Approach
+              </Link>
+            </motion.div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.5 }}
+              className="mt-16 text-xs font-bold tracking-widest uppercase text-gray-500"
+            >
+              SCROLL
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section - UPDATED WITH REALISTIC MULTIPLIERS */}
-      <section className="px-6 lg:px-8 py-16 border-t border-teal/10">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
-          >
-            {[
-              { value: "3x", label: "AVG. ROAS" },
-              { value: "$8M+", label: "AD SPEND MANAGED" },
-              { value: "90%", label: "CLIENT RETENTION" },
-              { value: "4.7/5", label: "CLIENT RATING" },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 bg-gradient-to-r from-purple-400 via-teal to-blue-400 bg-clip-text text-transparent">
-                  {stat.value}
-                </div>
-                <div className="text-xs md:text-sm font-bold tracking-widest text-gray-400 uppercase">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+      {/* Stats Section - FIXED WITH REALISTIC NUMBERS */}
+      <Reveal>
+        <section className="px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-black/20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+              {[
+                { value: "2.5x", label: "Average ROAS" },
+                { value: "3x", label: "Revenue Growth" },
+                { value: "92%", label: "Client Retention" },
+                { value: "2.8x", label: "Average ROI" },
+              ].map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="text-center"
+                >
+                  <div className="text-4xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
 
       {/* Statement Section */}
       <Reveal>
