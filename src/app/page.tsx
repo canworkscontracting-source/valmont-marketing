@@ -1,194 +1,238 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-
-const Reveal = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
-      {children}
-    </motion.div>
-  );
-};
+import Link from "next/link";
+import { motion } from "framer-motion";
+import Reveal from "@/components/Reveal";
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-
-  const services = [
-    {
-      title: 'Performance Marketing',
-      desc: 'Data-driven campaigns that deliver measurable ROI across all digital channels.',
-      icon: (<svg className="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>)
-    },
-    {
-      title: 'Brand Strategy',
-      desc: 'Build a premium brand identity that resonates with your target audience.',
-      icon: (<svg className="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>)
-    },
-    {
-      title: 'Creative Production',
-      desc: 'High-impact creative that cuts through the noise and drives action.',
-      icon: (<svg className="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>)
-    }
-  ];
-
-  const stats = [
-    { value: '250%', label: 'Avg. ROAS' },
-    { value: '$50M+', label: 'Ad Spend Managed' },
-    { value: '95%', label: 'Client Retention' },
-    { value: '4.8/5', label: 'Client Rating' }
-  ];
-
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 lg:px-8">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <Reveal>
-            <motion.h1 
-              className="text-5xl md:text-7xl lg:text-8xl font-black uppercase mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.8 }}
+      <section className="relative pt-32 pb-20 px-6 lg:px-8 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-center"
+          >
+            {/* Kicker */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-3 px-4 py-2 mb-8 border border-teal/30 bg-teal/5 rounded-full"
             >
-              Growth Systems
-            </motion.h1>
-          </Reveal>
-          
-          <Reveal>
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
-              Elite marketing solutions for brands that refuse to settle.
-            </p>
-          </Reveal>
+              <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.8)] animate-pulse" />
+              <span className="text-xs font-bold tracking-widest uppercase text-teal">
+                Growth Systems
+              </span>
+            </motion.div>
 
-          <Reveal>
-            <button className="bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transition-all transform hover:scale-105">
-              Start Your Journey
-            </button>
-          </Reveal>
+            {/* Main Headline */}
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 uppercase">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="block"
+              >
+                Growth
+              </motion.span>
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="block text-teal text-glow"
+              >
+                Systems
+              </motion.span>
+            </h1>
+
+            {/* Subheadline */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+              className="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto"
+            >
+              Elite marketing solutions for brands that refuse to settle.
+            </motion.p>
+
+            {/* CTA Button - FIXED TO GO TO CONTACT */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.5 }}
+            >
+              <Link
+                href="/contact"
+                className="inline-block px-12 py-5 text-base font-bold tracking-wide uppercase bg-white hover:bg-gray-100 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.3)] hover:scale-105"
+              >
+                Start Your Journey
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="px-6 lg:px-8 py-20 bg-gradient-to-b from-black to-gray-900">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-4xl md:text-5xl font-black bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2">
-                    {stat.value}
-                  </div>
-                  <div className="text-gray-400 text-sm uppercase tracking-wider">
-                    {stat.label}
-                  </div>
+      {/* Stats Section - UPDATED WITH REALISTIC MULTIPLIERS */}
+      <section className="px-6 lg:px-8 py-16 border-t border-teal/10">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
+          >
+            {[
+              { value: "3x", label: "AVG. ROAS" },
+              { value: "$8M+", label: "AD SPEND MANAGED" },
+              { value: "90%", label: "CLIENT RETENTION" },
+              { value: "4.7/5", label: "CLIENT RATING" },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.5 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl lg:text-6xl font-black mb-2 bg-gradient-to-r from-purple-400 via-teal to-blue-400 bg-clip-text text-transparent">
+                  {stat.value}
                 </div>
-              ))}
+                <div className="text-xs md:text-sm font-bold tracking-widest text-gray-400 uppercase">
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Statement Section */}
+      <Reveal>
+        <section className="px-6 lg:px-8 py-20">
+          <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
+            <h2 className="text-4xl md:text-5xl font-black uppercase mb-6 leading-tight">
+              We Don't Run Campaigns.
+              <br />
+              <span className="text-teal">We Build Growth Systems.</span>
+            </h2>
+            <p className="text-lg text-gray-300 leading-relaxed">
+              Valmont Marketing engineers AI-powered systems designed to acquire, convert, and scale.
+            </p>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* What We Build */}
+      <section className="px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-black uppercase mb-4">
+                What We Build
+              </h2>
             </div>
           </Reveal>
-        </div>
-      </section>
 
-      {/* Services Section */}
-      <section className="px-6 lg:px-8 py-20">
-        <div className="max-w-6xl mx-auto">
-          <Reveal>
-            <h2 className="text-4xl md:text-5xl font-black uppercase mb-16 text-center">
-              Our Services
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, i) => (
-              <Reveal key={i}>
-                <div className="glass rounded-2xl p-8 hover:scale-105 transition-transform h-full">
-                  <div className="text-6xl mb-4">{service.icon}</div>
-                  <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                  <p className="text-gray-400">{service.desc}</p>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "AI Strategy & Automation",
+                description: "Intelligent systems that work 24/7",
+              },
+              {
+                title: "Performance & Data Intelligence",
+                description: "Real-time optimization and insights",
+              },
+              {
+                title: "Creative Built to Convert",
+                description: "Design engineered for results",
+              },
+            ].map((item, i) => (
+              <Reveal key={item.title} delay={i * 0.1}>
+                <div className="glass glass-hover rounded-2xl p-8 h-full">
+                  <h3 className="text-xl font-bold uppercase mb-3 text-teal">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
+        </section>
       </section>
 
-      {/* Marketing Engineered Section */}
-      <section className="px-6 lg:px-8 py-20">
-        <Reveal>
+      {/* Marketing Engineered */}
+      <Reveal>
+        <section className="px-6 lg:px-8 py-20">
           <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-8">
               Marketing, Engineered.
             </h2>
             <ul className="space-y-4">
-              <li className="flex items-start">
-                <span className="text-purple-400 mr-3 text-xl">✓</span>
-                <span className="text-gray-300">Data-driven strategies backed by real-time analytics</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-400 mr-3 text-xl">✓</span>
-                <span className="text-gray-300">Creative excellence that converts</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-400 mr-3 text-xl">✓</span>
-                <span className="text-gray-300">Transparent reporting with full accountability</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-400 mr-3 text-xl">✓</span>
-                <span className="text-gray-300">Dedicated team of experts at your disposal</span>
-              </li>
+              {[
+                "AI-driven decision making",
+                "Automated growth workflows",
+                "Data-backed optimization",
+                "Systems that scale with revenue",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <span className="text-gray-300">{item}</span>
+                </li>
+              ))}
             </ul>
           </div>
-        </Reveal>
-      </section>
+        </section>
+      </Reveal>
 
-      {/* CTA Section */}
-      <section className="px-6 lg:px-8 py-32 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+      {/* Why Valmont */}
+      <section className="px-6 lg:px-8 py-20">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           <Reveal>
-            <h2 className="text-4xl md:text-6xl font-black uppercase mb-6">
-              Ready to Dominate?
-            </h2>
-          </Reveal>
-          
-          <Reveal>
-            <p className="text-xl text-gray-300 mb-12">
-              Join the elite brands working with Growth Systems.
-            </p>
+            <div className="glass rounded-3xl p-12">
+              <h2 className="text-3xl md:text-4xl font-black uppercase mb-8">
+                Why Valmont
+              </h2>
+              <ul className="space-y-4">
+                {[
+                  "Built on AI, not manual labor",
+                  "Systems before tactics",
+                  "Designed for long-term scale",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                    <span className="text-gray-300">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
 
-          <Reveal>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-xl mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full sm:flex-1 px-6 py-4 rounded-full bg-white/10 border border-white/20 focus:border-purple-400 focus:outline-none text-white placeholder-gray-400"
-              />
-              <button className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 rounded-full font-bold hover:scale-105 transition-transform">
-                Get Started
-              </button>
+          <Reveal delay={0.2}>
+            <div className="glass rounded-3xl p-12 flex flex-col justify-center">
+              <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
+                Ready to Build
+                <br />
+                <span className="text-teal">Smarter Growth?</span>
+              </h2>
+              <Link
+                href="/contact"
+                className="inline-block px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] text-center"
+              >
+                Start Building
+              </Link>
             </div>
           </Reveal>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="px-6 lg:px-8 py-12 border-t border-white/10">
-        <div className="max-w-6xl mx-auto text-center">
-          <p className="text-gray-500">
-            © 2026 Growth Systems. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </div>
+    </main>
   );
 }
