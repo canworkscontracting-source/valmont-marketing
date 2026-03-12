@@ -3,8 +3,29 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
+import { useState } from "react";
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+    businessName: "",
+    businessType: "",
+    websiteOrSocial: "",
+    goal: ""
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // For now, just log the data - you can connect this to an email service later
+    console.log("Form submitted:", formData);
+    alert("Thank you! We'll send your AI Growth Audit shortly.");
+    setFormData({
+      businessName: "",
+      businessType: "",
+      websiteOrSocial: "",
+      goal: ""
+    });
+  };
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -169,6 +190,97 @@ export default function Home() {
                   Average ROI
                 </div>
               </motion.div>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* FREE AI GROWTH AUDIT SECTION - NEW */}
+      <Reveal>
+        <section className="px-6 lg:px-8 py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="glass rounded-3xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <h2 className="text-4xl md:text-5xl font-black uppercase mb-4 leading-tight">
+                  Free AI Growth Audit
+                </h2>
+                <p className="text-lg text-gray-300">
+                  Receive Your Strategy Completely Free
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="businessName" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
+                    What is your business name?
+                  </label>
+                  <input
+                    type="text"
+                    id="businessName"
+                    required
+                    value={formData.businessName}
+                    onChange={(e) => setFormData({...formData, businessName: e.target.value})}
+                    className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500"
+                    placeholder="Your Business Name"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="businessType" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
+                    Type of Business
+                  </label>
+                  <input
+                    type="text"
+                    id="businessType"
+                    required
+                    value={formData.businessType}
+                    onChange={(e) => setFormData({...formData, businessType: e.target.value})}
+                    className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500"
+                    placeholder="E-commerce, SaaS, Services, etc."
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="websiteOrSocial" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
+                    Website or Social Handles
+                  </label>
+                  <input
+                    type="text"
+                    id="websiteOrSocial"
+                    required
+                    value={formData.websiteOrSocial}
+                    onChange={(e) => setFormData({...formData, websiteOrSocial: e.target.value})}
+                    className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500"
+                    placeholder="website.com or @handle"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="goal" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
+                    What is your goal?
+                  </label>
+                  <textarea
+                    id="goal"
+                    required
+                    rows={4}
+                    value={formData.goal}
+                    onChange={(e) => setFormData({...formData, goal: e.target.value})}
+                    className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500 resize-none"
+                    placeholder="Describe your growth goals..."
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+                >
+                  Get My Free Audit
+                </button>
+              </form>
+
+              <p className="text-xs text-gray-500 text-center mt-6">
+                No credit card required. Audit delivered within 24 hours.
+              </p>
             </div>
           </div>
         </section>
