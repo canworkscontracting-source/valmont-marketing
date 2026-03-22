@@ -143,6 +143,29 @@ export default function Home() {
               </Link>
             </motion.div>
 
+            {/* Powered by VANTIX Badge */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5, duration: 0.8 }}
+              className="mt-16"
+            >
+              <Link 
+                href="/assurance"
+                className="inline-flex items-center gap-3 px-5 py-2.5 border border-teal/20 bg-black/40 hover:bg-teal/5 rounded-full transition-all duration-300 group"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 group-hover:text-teal transition-colors">
+                  Powered by
+                </span>
+                <img 
+                  src="/uploads/hf_20260322_112241_871ac18f-61e3-42b4-aa78-0ce6a5d3a246.png" 
+                  alt="VANTIX" 
+                  className="h-5 opacity-90 group-hover:opacity-100 transition-opacity"
+                  loading="eager"
+                />
+              </Link>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -311,6 +334,129 @@ export default function Home() {
               <p className="text-xs text-gray-500 text-center mt-6">
                 No credit card required. Audit delivered within 24 hours.
               </p>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* VANTIX SECTION - THE AI ENGINE */}
+      <Reveal>
+        <section className="px-6 lg:px-8 py-20">
+          <div className="max-w-5xl mx-auto">
+            <div className="glass rounded-3xl p-8 md:p-16 text-center">
+              {/* VANTIX Logo */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="mb-8"
+              >
+                <img 
+                  src="/uploads/hf_20260322_112241_871ac18f-61e3-42b4-aa78-0ce6a5d3a246.png" 
+                  alt="VANTIX" 
+                  className="w-48 sm:w-64 mx-auto"
+                  loading="lazy"
+                />
+              </motion.div>
+
+              {/* Headline */}
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-6 leading-tight"
+              >
+                The AI Intelligence Layer
+                <br />
+                <span className="text-teal">Behind Every Campaign We Run</span>
+              </motion.h2>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.6 }}
+                className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto"
+              >
+                While you focus on growth strategy, VANTIX autonomously monitors your marketing 24/7, 
+                identifies what's working, and scales it automatically—so you grow faster without the guesswork.
+              </motion.p>
+
+              {/* 3 Key Features */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, duration: 0.6 }}
+                className="grid sm:grid-cols-3 gap-6 mb-12"
+              >
+                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
+                    Monitors 24/7
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    Tracks performance across all channels continuously
+                  </p>
+                </div>
+
+                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
+                    Optimizes Auto
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    Improves campaigns while you sleep
+                  </p>
+                </div>
+
+                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
+                    Scales Winners
+                  </h3>
+                  <p className="text-sm text-gray-400">
+                    Grows revenue without guesswork
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* CTAs */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.8, duration: 0.6 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-4"
+              >
+                <Link
+                  href="/assurance"
+                  className="px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+                >
+                  Discover VANTIX
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
+                >
+                  Book a Demo
+                </Link>
+              </motion.div>
             </div>
           </div>
         </section>
