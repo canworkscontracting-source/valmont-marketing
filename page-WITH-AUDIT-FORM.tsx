@@ -74,7 +74,7 @@ export default function Home() {
             >
               <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.8)] animate-pulse" />
               <span className="text-xs font-bold tracking-widest uppercase text-teal">
-                VANTIX AI
+                Growth Systems
               </span>
             </motion.div>
 
@@ -157,14 +157,12 @@ export default function Home() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 group-hover:text-teal transition-colors">
                   Powered by
                 </span>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-teal" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span className="text-sm font-bold tracking-wider text-teal">VANTIX</span>
-                </div>
+                <img 
+                  src="/uploads/hf_20260322_112241_871ac18f-61e3-42b4-aa78-0ce6a5d3a246.png" 
+                  alt="VANTIX" 
+                  className="h-5 opacity-90 group-hover:opacity-100 transition-opacity"
+                  loading="eager"
+                />
               </Link>
             </motion.div>
 
