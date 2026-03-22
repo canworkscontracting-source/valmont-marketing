@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import { useState, useEffect } from "react";
@@ -45,6 +46,7 @@ export default function VantixPage() {
             src="/uploads/hf_20260322_111932_f135185d-634f-4697-b32b-92626c6a2bb4.png" 
             alt="" 
             className="w-full h-full object-cover"
+            loading="eager"
           />
         </div>
 
@@ -81,6 +83,7 @@ export default function VantixPage() {
                 src="/uploads/hf_20260322_112241_871ac18f-61e3-42b4-aa78-0ce6a5d3a246.png" 
                 alt="VANTIX" 
                 className="w-64 sm:w-80 md:w-96 mx-auto"
+                loading="eager"
               />
             </motion.div>
 
@@ -209,9 +212,10 @@ export default function VantixPage() {
               {/* AI NETWORK VISUAL */}
               <div className="max-w-3xl mx-auto mt-12 rounded-2xl overflow-hidden border border-teal/20">
                 <img 
-                  src="/images/vantix-network.png" 
+                  src="/uploads/hf_20260322_111903_73a166d1-ff96-4519-af6c-014c92d14940.png" 
                   alt="VANTIX AI Network Visualization" 
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -372,9 +376,10 @@ export default function VantixPage() {
                 {/* DASHBOARD VISUAL */}
                 <div className="mb-8 rounded-xl overflow-hidden border border-teal/20">
                   <img 
-                    src="/images/vantix-dashboard.jpg" 
+                    src="/uploads/hf_20260322_111911_6f38d845-09db-4261-953a-fe2c1e892184.jpeg" 
                     alt="VANTIX Control Center Dashboard" 
                     className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                 </div>
                 
