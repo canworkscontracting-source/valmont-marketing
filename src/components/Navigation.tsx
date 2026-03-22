@@ -9,7 +9,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/systems", label: "Systems" },
   { href: "/intelligence", label: "Intelligence" },
-  { href: "/assurance", label: "Assurance" },
+  { href: "/assurance", label: "VANTIX" },
   { href: "/contact", label: "Contact" },
 ];
 
