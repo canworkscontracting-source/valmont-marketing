@@ -12,18 +12,47 @@ export default function Home() {
     websiteOrSocial: "",
     goal: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // For now, just log the data - you can connect this to an email service later
-    console.log("Form submitted:", formData);
-    alert("Thank you! We'll send your AI Growth Audit shortly.");
-    setFormData({
-      businessName: "",
-      businessType: "",
-      websiteOrSocial: "",
-      goal: ""
-    });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "96aa0813-ac4d-42bc-ad13-55a78387b4ac",
+          subject: "🎯 New AI Growth Audit Request",
+          from_name: formData.businessName,
+          business_name: formData.businessName,
+          business_type: formData.businessType,
+          website_or_social: formData.websiteOrSocial,
+          goal: formData.goal,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("✅ Success! We'll send your AI Growth Audit within 24 hours.");
+        setFormData({
+          businessName: "",
+          businessType: "",
+          websiteOrSocial: "",
+          goal: ""
+        });
+      } else {
+        alert("❌ Something went wrong. Please try again or email us directly.");
+      }
+    } catch (error) {
+      alert("❌ Something went wrong. Please try again or email us directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -272,9 +301,10 @@ export default function Home() {
 
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+                  disabled={isSubmitting}
+                  className="w-full px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Get My Free Audit
+                  {isSubmitting ? "Sending..." : "Get My Free Audit"}
                 </button>
               </form>
 

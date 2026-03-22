@@ -12,12 +12,43 @@ export default function ContactPage() {
     phone: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Thank you! We'll be in touch soon.");
-    setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "8fecf807-deb1-411a-9b02-e9e1310a0cc6",
+          subject: "📩 New Contact Form Submission",
+          from_name: formData.name,
+          email: formData.email,
+          name: formData.name,
+          company: formData.company,
+          phone: formData.phone,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("✅ Thank you! We'll be in touch within one business day.");
+        setFormData({ name: "", email: "", company: "", phone: "", message: "" });
+      } else {
+        alert("❌ Something went wrong. Please try again or email us directly at Valmontmarketingagency@gmail.com");
+      }
+    } catch (error) {
+      alert("❌ Something went wrong. Please try again or email us directly at Valmontmarketingagency@gmail.com");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -143,9 +174,10 @@ export default function ContactPage() {
 
                   <button
                     type="submit"
-                    className="w-full px-6 sm:px-8 py-3 sm:py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)]"
+                    disabled={isSubmitting}
+                    className="w-full px-6 sm:px-8 py-3 sm:py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Submit Inquiry
+                    {isSubmitting ? "Sending..." : "Submit Inquiry"}
                   </button>
                 </form>
               </div>
