@@ -79,7 +79,7 @@ async function getPostInsights(postId, pageToken) {
 
 function ConnectInstagram({ clientId, onConnected }) {
   const handleConnect = () => {
-    const PERMISSIONS = "instagram_business_basic,pages_show_list,pages_read_engagement";
+    const PERMISSIONS = "instagram_basic,pages_show_list,pages_read_engagement";
     const oauthUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${PERMISSIONS}&response_type=code&state=${clientId}`;
     const popup = window.open(oauthUrl, "Connect Instagram", "width=600,height=700,scrollbars=yes");
     window.addEventListener("message", async (event) => {
@@ -133,17 +133,31 @@ function InstagramDashboard({ client, token }) {
     setLoading(true);
     setError(null);
     try {
-      const pages = await getConnectedAccounts(accessToken);
-      if (!pages.data?.length) throw new Error("No Facebook Pages found. Make sure the account has a Facebook Page.");
-      const pageWithIG = pages.data.find(p => p.instagram_business_account);
-      if (!pageWithIG) throw new Error("No Instagram Business account found. Switch Instagram to Business or Creator mode first.");
-      const igId = pageWithIG.instagram_business_account.id;
-      const pageToken = pageWithIG.access_token;
-      const account = await getIGAccount(igId, pageToken);
-      const postsData = await getIGPosts(igId, pageToken);
-      const result = { account, posts: postsData.data || [], igId, pageToken, fetchedAt: new Date().toISOString() };
-      setData(result);
-      LS.set(cacheKey, result);
+      // Step 1: Try Instagram Graph API directly (instagram_business_basic scope)
+      const meRes = await fetch(`https://graph.instagram.com/v18.0/me?fields=id,username,followers_count,follows_count,media_count,profile_picture_url,biography&access_token=${accessToken}`);
+      const meData = await meRes.json();
+
+      if (meData.id && !meData.error) {
+        // Direct Instagram API worked
+        const postsRes = await fetch(`https://graph.instagram.com/v18.0/me/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,like_count,comments_count,permalink&limit=24&access_token=${accessToken}`);
+        const postsData = await postsRes.json();
+        const result = { account: meData, posts: postsData.data || [], igId: meData.id, pageToken: accessToken, fetchedAt: new Date().toISOString() };
+        setData(result);
+        LS.set(cacheKey, result);
+      } else {
+        // Fallback: Try Facebook Pages API (older flow)
+        const pages = await getConnectedAccounts(accessToken);
+        if (!pages.data?.length) throw new Error("No Facebook Pages found. Make sure this Facebook account manages a Page.");
+        const pageWithIG = pages.data.find(p => p.instagram_business_account);
+        if (!pageWithIG) throw new Error("No Instagram Business account linked to your Facebook Page. Go to your Facebook Page settings and connect your Instagram.");
+        const igId = pageWithIG.instagram_business_account.id;
+        const pageToken = pageWithIG.access_token;
+        const account = await getIGAccount(igId, pageToken);
+        const postsData = await getIGPosts(igId, pageToken);
+        const result = { account, posts: postsData.data || [], igId, pageToken, fetchedAt: new Date().toISOString() };
+        setData(result);
+        LS.set(cacheKey, result);
+      }
     } catch (err) {
       setError(err.message || "Connection error. Try reconnecting.");
     }
