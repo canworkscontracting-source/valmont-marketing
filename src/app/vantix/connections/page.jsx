@@ -79,7 +79,7 @@ async function getPostInsights(postId, pageToken) {
 
 function ConnectInstagram({ clientId, onConnected }) {
   const handleConnect = () => {
-    const PERMISSIONS = "instagram_basic,pages_show_list,pages_read_engagement";
+    const PERMISSIONS = "instagram_business_basic,pages_show_list,pages_read_engagement";
     const oauthUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${PERMISSIONS}&response_type=code&state=${clientId}`;
     const popup = window.open(oauthUrl, "Connect Instagram", "width=600,height=700,scrollbars=yes");
     window.addEventListener("message", async (event) => {
