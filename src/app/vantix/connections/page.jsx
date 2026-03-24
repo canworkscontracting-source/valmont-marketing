@@ -43,7 +43,12 @@ const Spinner = ({ label = "LOADING..." }) => (
 async function analyzeWithVantix(systemPrompt, userMessage) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY || "",
+      "anthropic-version": "2023-06-01",
+      "anthropic-dangerous-direct-browser-access": "true",
+    },
     body: JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 2000,
@@ -133,31 +138,26 @@ function InstagramDashboard({ client, token }) {
     setLoading(true);
     setError(null);
     try {
-      // Step 1: Try Instagram Graph API directly (instagram_business_basic scope)
-      const meRes = await fetch(`https://graph.instagram.com/v18.0/me?fields=id,username,followers_count,follows_count,media_count,profile_picture_url,biography&access_token=${accessToken}`);
-      const meData = await meRes.json();
+      // Get all pages and find the one with an Instagram Business account
+      const pagesRes = await fetch(`https://graph.facebook.com/v18.0/me/accounts?fields=id,name,instagram_business_account,access_token&access_token=${accessToken}`);
+      const pages = await pagesRes.json();
 
-      if (meData.id && !meData.error) {
-        // Direct Instagram API worked
-        const postsRes = await fetch(`https://graph.instagram.com/v18.0/me/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,like_count,comments_count,permalink&limit=24&access_token=${accessToken}`);
-        const postsData = await postsRes.json();
-        const result = { account: meData, posts: postsData.data || [], igId: meData.id, pageToken: accessToken, fetchedAt: new Date().toISOString() };
-        setData(result);
-        LS.set(cacheKey, result);
-      } else {
-        // Fallback: Try Facebook Pages API (older flow)
-        const pages = await getConnectedAccounts(accessToken);
-        if (!pages.data?.length) throw new Error("No Facebook Pages found. Make sure this Facebook account manages a Page.");
-        const pageWithIG = pages.data.find(p => p.instagram_business_account);
-        if (!pageWithIG) throw new Error("No Instagram Business account linked to your Facebook Page. Go to your Facebook Page settings and connect your Instagram.");
-        const igId = pageWithIG.instagram_business_account.id;
-        const pageToken = pageWithIG.access_token;
-        const account = await getIGAccount(igId, pageToken);
-        const postsData = await getIGPosts(igId, pageToken);
-        const result = { account, posts: postsData.data || [], igId, pageToken, fetchedAt: new Date().toISOString() };
-        setData(result);
-        LS.set(cacheKey, result);
-      }
+      if (!pages.data?.length) throw new Error("No Facebook Pages found. Make sure you logged in with the correct Facebook account.");
+
+      // Find any page with an Instagram business account linked
+      const pageWithIG = pages.data.find(p => p.instagram_business_account);
+      if (!pageWithIG) throw new Error("No Instagram Business account found on any of your Pages. Make sure Instagram is linked to your Facebook Page.");
+
+      const igId = pageWithIG.instagram_business_account.id;
+      const pageToken = pageWithIG.access_token;
+
+      const fields = "id,name,username,followers_count,follows_count,media_count,profile_picture_url,biography";
+      const account = await (await fetch(`https://graph.facebook.com/v18.0/${igId}?fields=${fields}&access_token=${pageToken}`)).json();
+      const postsData = await (await fetch(`https://graph.facebook.com/v18.0/${igId}/media?fields=id,caption,media_type,media_url,thumbnail_url,timestamp,like_count,comments_count,permalink&limit=24&access_token=${pageToken}`)).json();
+
+      const result = { account, posts: postsData.data || [], igId, pageToken, fetchedAt: new Date().toISOString() };
+      setData(result);
+      LS.set(cacheKey, result);
     } catch (err) {
       setError(err.message || "Connection error. Try reconnecting.");
     }

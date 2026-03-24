@@ -55,7 +55,7 @@ async function callVantix({ systemPrompt, userMessage, useSearch = false, maxTok
     body.tools = [{ type: "web_search_20250305", name: "web_search" }];
   }
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  const res = await fetch("/api/analyze", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -278,7 +278,15 @@ function Dashboard({ clients, setView, setSelectedClient }) {
       const niches = [...new Set(clients.map(c => c.niche).filter(Boolean))].join(", ");
       const text = await callVantix({
         systemPrompt: "You are VANTIX, an elite social media growth intelligence system. Be sharp, data-driven, and specific. No fluff.",
-        userMessage: `Generate a concise intelligence brief for today (${todayStr}) for a social media agency managing clients in these niches: ${niches || "various businesses"}.\n\nInclude:\n1. TOP 3 content opportunities this week across Instagram/Facebook/YouTube\n2. Algorithm updates or platform changes relevant right now\n3. One contrarian growth tactic most agencies aren't using\n4. Engagement pattern insight for Indian/global audiences\n\nBe specific. Numbers and tactics, not theory.`,
+        userMessage: `Generate a concise intelligence brief for today (${todayStr}) for a social media agency managing clients in these niches: ${niches || "various businesses"}.
+
+Include:
+1. TOP 3 content opportunities this week across Instagram/Facebook/YouTube
+2. Algorithm updates or platform changes relevant right now
+3. One contrarian growth tactic most agencies aren't using
+4. Engagement pattern insight for Indian/global audiences
+
+Be specific. Numbers and tactics, not theory.`,
         useSearch: true,
         maxTokens: 1500,
       });
@@ -1152,8 +1160,8 @@ CONTENT TYPE: ${contentType || "Post"}
 PLATFORM: ${platform}
 
 Platform requirements:
-${platform === "instagram" && contentType === "Reel Script" ? "- Hook in first 3 seconds (on-screen text + voiceover)\n- Scenes with timing\n- Strong audio cue\n- End CTA with visual" : ""}
-${platform === "instagram" && contentType?.includes("Carousel") ? "- Slide 1: Hook (stop the scroll)\n- Slides 2-8: Value delivery\n- Last slide: CTA\n- Each slide: max 15 words" : ""}
+${platform === "instagram" && contentType === "Reel Script" ? "- Hook in first 3 seconds\n- Scenes with timing\n- Strong audio cue\n- End CTA with visual" : ""}
+${platform === "instagram" && contentType?.includes("Carousel") ? "- Slide 1: Hook\n- Slides 2-8: Value delivery\n- Last slide: CTA\n- Each slide: max 15 words" : ""}
 ${platform === "youtube" && contentType?.includes("Full") ? "- Open loop hook (first 30 sec)\n- Chapter structure\n- Retention pattern every 2-3 min\n- Strong CTA at 80% mark" : ""}
 ${platform === "linkedin" ? "- No hashtag spam\n- Strong first line\n- Whitespace for readability\n- Personal insight or data point\n- Max 3 hashtags" : ""}
 ${platform === "whatsapp" ? "- Conversational, not formal\n- Short paragraphs\n- Bold key phrases using *asterisks*\n- Clear action at the end" : ""}
