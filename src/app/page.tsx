@@ -38,7 +38,7 @@ export default function Home() {
       const result = await response.json();
 
       if (result.success) {
-        alert("✅ Success! We'll send your AI Growth Audit within 24 hours.");
+        alert("✅ Success! We'll send your strategic audit within 24 hours.");
         setFormData({
           businessName: "",
           businessType: "",
@@ -57,145 +57,107 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* SECTION 1: HERO */}
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-center"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="inline-flex items-center gap-3 px-4 py-2 mb-8 border border-teal/30 bg-teal/5 rounded-full"
+            {/* Main Brand */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-gray-400 mb-6 sm:mb-8"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.8)] animate-pulse" />
-              <span className="text-xs font-bold tracking-widest uppercase text-teal">
-                VANTIX AI
-              </span>
-            </motion.div>
+              Valmont Marketing & Consultancy
+            </motion.h1>
 
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 uppercase">
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="block"
-              >
-                Growth
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
-                className="block text-teal text-glow"
-              >
-                Systems
-              </motion.span>
-            </h1>
+            {/* Big Headline */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight mb-6 sm:mb-8 leading-tight"
+            >
+              Growth Systems for Brands
+              <br />
+              <span className="text-teal">That Want More Than Marketing</span>
+            </motion.h2>
 
+            {/* Description */}
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
-              className="text-xl md:text-2xl text-gray-300 mb-4 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4"
             >
-              Elite marketing solutions for brands that refuse to settle.
+              We combine consulting, execution, and AI-powered intelligence to help brands acquire customers, 
+              improve conversion, and scale with structure. Powered by VANTIX.
             </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.5 }}
-              className="flex flex-wrap items-center justify-center gap-3 mb-10"
-            >
-              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
-                AUTOMATION
-              </span>
-              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
-                DATA
-              </span>
-              <span className="px-4 py-1.5 text-xs font-bold tracking-widest border border-teal/20 bg-teal/5 rounded-full">
-                PERFORMANCE
-              </span>
-            </motion.div>
-
+            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
               <Link
                 href="/contact"
-                className="px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+                className="w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
               >
-                Start Your Journey
+                Book a Consultation
               </Link>
               <Link
                 href="/systems"
-                className="px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
+                className="w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
               >
-                View Our Approach
+                Explore Systems
               </Link>
-            </motion.div>
-
-            {/* Powered by VANTIX Badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.8 }}
-              className="mt-16"
-            >
-              <Link 
-                href="/assurance"
-                className="inline-flex items-center gap-3 px-5 py-2.5 border border-teal/20 bg-black/40 hover:bg-teal/5 rounded-full transition-all duration-300 group"
-              >
-                <span className="text-xs font-semibold uppercase tracking-wider text-gray-400 group-hover:text-teal transition-colors">
-                  Powered by
-                </span>
-                <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-teal" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <span className="text-sm font-bold tracking-wider text-teal">VANTIX</span>
-                </div>
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 0.5 }}
-              className="mt-16 text-xs font-bold tracking-widest uppercase text-gray-500"
-            >
-              SCROLL
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* SECTION 2: POSITIONING STRIP */}
+      <section className="py-6 sm:py-8 border-y border-teal/10 overflow-hidden">
+        <motion.div
+          animate={{ x: [0, -1000] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="whitespace-nowrap"
+        >
+          <span className="text-xs sm:text-sm font-bold tracking-[0.3em] uppercase text-gray-500">
+            CONSULTING · SYSTEMS · AUTOMATION · PERFORMANCE · INTELLIGENCE · CONSULTING · SYSTEMS · AUTOMATION · PERFORMANCE · INTELLIGENCE
+          </span>
+        </motion.div>
+      </section>
+
+      {/* SECTION 3: METRICS */}
       <Reveal>
-        <section className="px-6 lg:px-8 py-16 bg-gradient-to-b from-transparent to-black/20">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-4 sm:mb-6">
+                Built Through Systems, Not Guesswork
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0, duration: 0.5 }}
+                transition={{ duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+                <div className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
                   2.5x
                 </div>
-                <div className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400">
+                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">
                   Average ROAS
                 </div>
               </motion.div>
@@ -207,10 +169,10 @@ export default function Home() {
                 transition={{ delay: 0.1, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+                <div className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
                   3x
                 </div>
-                <div className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400">
+                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">
                   Revenue Growth
                 </div>
               </motion.div>
@@ -222,10 +184,10 @@ export default function Home() {
                 transition={{ delay: 0.2, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+                <div className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
                   92%
                 </div>
-                <div className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400">
+                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">
                   Client Retention
                 </div>
               </motion.div>
@@ -237,36 +199,70 @@ export default function Home() {
                 transition={{ delay: 0.3, duration: 0.5 }}
                 className="text-center"
               >
-                <div className="text-4xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
+                <div className="text-4xl sm:text-5xl md:text-6xl font-black mb-2 bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-transparent">
                   2.8x
                 </div>
-                <div className="text-xs md:text-sm font-semibold uppercase tracking-wider text-gray-400">
+                <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-400">
                   Average ROI
                 </div>
               </motion.div>
+            </div>
+
+            <p className="text-center text-sm text-gray-400 max-w-2xl mx-auto">
+              Results achieved through structured growth systems and VANTIX-powered intelligence.
+            </p>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* SECTION 4: WHAT WE DO */}
+      <Reveal>
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="glass rounded-3xl p-8 sm:p-12 md:p-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-6 sm:mb-8 leading-tight">
+                We Are Not Just a Marketing Agency
+              </h2>
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
+                Valmont operates as both a marketing agency and a consultancy. We help brands define strategy, 
+                build infrastructure, launch acquisition systems, and scale using intelligence and automation.
+              </p>
+              <p className="text-base sm:text-lg md:text-xl text-teal font-bold mb-8">
+                We do not sell random services. We design growth systems.
+              </p>
+              <Link
+                href="/systems"
+                className="inline-block px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)]"
+              >
+                See Our Systems
+              </Link>
             </div>
           </div>
         </section>
       </Reveal>
 
-      {/* FREE AI GROWTH AUDIT SECTION - NEW */}
+      {/* SECTION 5: FREE AUDIT FORM */}
       <Reveal>
-        <section className="px-6 lg:px-8 py-20">
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-4xl mx-auto">
-            <div className="glass rounded-3xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <h2 className="text-4xl md:text-5xl font-black uppercase mb-4 leading-tight">
+            <div className="glass rounded-3xl p-6 sm:p-8 md:p-12">
+              <div className="text-center mb-8 sm:mb-10">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-4 sm:mb-6 leading-tight">
                   Free AI Growth Audit
                 </h2>
-                <p className="text-lg text-gray-300">
-                  Receive Your Strategy Completely Free
+                <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
+                  We review your current marketing, positioning, and digital infrastructure and identify where 
+                  your growth system is breaking or underperforming.
+                </p>
+                <p className="text-sm sm:text-base text-teal font-semibold mt-4">
+                  This is a strategic audit powered by VANTIX intelligence.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="businessName" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
-                    What is your business name?
+                    Business Name
                   </label>
                   <input
                     type="text"
@@ -275,7 +271,7 @@ export default function Home() {
                     value={formData.businessName}
                     onChange={(e) => setFormData({...formData, businessName: e.target.value})}
                     className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500"
-                    placeholder="Your Business Name"
+                    placeholder="Your business name"
                   />
                 </div>
 
@@ -305,13 +301,13 @@ export default function Home() {
                     value={formData.websiteOrSocial}
                     onChange={(e) => setFormData({...formData, websiteOrSocial: e.target.value})}
                     className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500"
-                    placeholder="website.com or @handle"
+                    placeholder="www.yoursite.com or @handle"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="goal" className="block text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
-                    What is your goal?
+                    Your Growth Goal
                   </label>
                   <textarea
                     id="goal"
@@ -320,7 +316,7 @@ export default function Home() {
                     value={formData.goal}
                     onChange={(e) => setFormData({...formData, goal: e.target.value})}
                     className="w-full px-4 py-3 bg-black/40 border border-teal/20 rounded-lg focus:border-teal focus:outline-none text-white placeholder-gray-500 resize-none"
-                    placeholder="Describe your growth goals..."
+                    placeholder="What do you want to achieve?"
                   />
                 </div>
 
@@ -334,271 +330,187 @@ export default function Home() {
               </form>
 
               <p className="text-xs text-gray-500 text-center mt-6">
-                No credit card required. Audit delivered within 24 hours.
+                Strategic audit delivered within 24 hours.
               </p>
             </div>
           </div>
         </section>
       </Reveal>
 
-      {/* VANTIX SECTION - THE AI ENGINE */}
+      {/* SECTION 6: VANTIX */}
       <Reveal>
-        <section className="px-6 lg:px-8 py-20">
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-5xl mx-auto">
-            <div className="glass rounded-3xl p-8 md:p-16 text-center">
-              {/* VANTIX Logo */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="mb-8"
-              >
-                <img 
-                  src="/uploads/hf_20260322_112241_871ac18f-61e3-42b4-aa78-0ce6a5d3a246.png" 
-                  alt="VANTIX" 
-                  className="w-48 sm:w-64 mx-auto"
-                  loading="lazy"
-                />
-              </motion.div>
-
-              {/* Headline */}
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-6 leading-tight"
-              >
-                The AI Intelligence Layer
+            <div className="glass rounded-3xl p-8 sm:p-12 md:p-16 text-center">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-6 leading-tight">
+                The Intelligence Layer Behind
                 <br />
-                <span className="text-teal">Behind Every Campaign We Run</span>
-              </motion.h2>
+                <span className="text-teal">Every Valmont System</span>
+              </h2>
+              
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-8 sm:mb-10 max-w-3xl mx-auto">
+                VANTIX monitors performance, identifies inefficiencies, detects opportunities, 
+                and supports smarter growth decisions.
+              </p>
 
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="text-lg sm:text-xl text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto"
-              >
-                While you focus on growth strategy, VANTIX autonomously monitors your marketing 24/7, 
-                identifies what's working, and scales it automatically—so you grow faster without the guesswork.
-              </motion.p>
+              <p className="text-sm sm:text-base text-teal font-semibold mb-10 sm:mb-12">
+                Every Valmont client benefits from VANTIX-powered intelligence.
+              </p>
 
-              {/* 3 Key Features */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="grid sm:grid-cols-3 gap-6 mb-12"
-              >
-                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Monitors 24/7
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    Tracks performance across all channels continuously
-                  </p>
-                </div>
-
-                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Optimizes Auto
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    Improves campaigns while you sleep
-                  </p>
-                </div>
-
-                <div className="bg-black/40 border border-teal/20 rounded-xl p-6">
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-teal/10 border border-teal/30 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Scales Winners
-                  </h3>
-                  <p className="text-sm text-gray-400">
-                    Grows revenue without guesswork
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* CTAs */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              >
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/assurance"
-                  className="px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+                  className="w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
                 >
                   Discover VANTIX
                 </Link>
                 <Link
                   href="/contact"
-                  className="px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
+                  className="w-full sm:w-auto px-8 py-4 text-sm font-bold tracking-wide uppercase border border-teal/30 hover:border-teal/60 bg-teal/5 hover:bg-teal/10 rounded-full transition-all duration-300"
                 >
-                  Book a Demo
+                  Book Demo
                 </Link>
-              </motion.div>
+              </div>
             </div>
           </div>
         </section>
       </Reveal>
 
-      {/* Tagline Section */}
+      {/* SECTION 7: SERVICES OVERVIEW */}
       <Reveal>
-        <section className="px-6 lg:px-8 py-20">
-          <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
-            <h2 className="text-4xl md:text-5xl font-black uppercase mb-6 leading-tight">
-              We Do Not Run Campaigns.
-              <br />
-              <span className="text-teal">We Build Growth Systems.</span>
-            </h2>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              Valmont Marketing engineers AI-powered systems designed to acquire, convert, and scale.
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-4">
+                Strategy. Execution. Intelligence.
+              </h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-12">
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold uppercase mb-4 text-teal">
+                  Consulting
+                </h3>
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                  Growth strategy, positioning, system planning, scale advisory
+                </p>
+              </div>
+
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold uppercase mb-4 text-teal">
+                  Implementation
+                </h3>
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                  Websites, creatives, ads, automation, funnels
+                </p>
+              </div>
+
+              <div className="glass rounded-2xl p-6 sm:p-8">
+                <h3 className="text-xl sm:text-2xl font-bold uppercase mb-4 text-teal">
+                  Intelligence
+                </h3>
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+                  Performance monitoring, optimization signals, decision support
+                </p>
+              </div>
+            </div>
+
+            <p className="text-center text-base sm:text-lg font-bold text-gray-200">
+              Everything works together as one system.{" "}
+              <span className="text-teal">Powered by VANTIX.</span>
             </p>
           </div>
         </section>
       </Reveal>
 
-      {/* What We Build Section */}
-      <section className="px-6 lg:px-8 py-20">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-black uppercase mb-4">
-                What We Build
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Reveal delay={0}>
-              <div className="glass glass-hover rounded-2xl p-8 h-full">
-                <h3 className="text-xl font-bold uppercase mb-3 text-teal">
-                  AI Strategy and Automation
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Intelligent systems that work 24/7
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.1}>
-              <div className="glass glass-hover rounded-2xl p-8 h-full">
-                <h3 className="text-xl font-bold uppercase mb-3 text-teal">
-                  Performance and Data Intelligence
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Real-time optimization and insights
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-              <div className="glass glass-hover rounded-2xl p-8 h-full">
-                <h3 className="text-xl font-bold uppercase mb-3 text-teal">
-                  Creative Built to Convert
-                </h3>
-                <p className="text-gray-400 leading-relaxed">
-                  Design engineered for results
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Marketing Engineered Section */}
+      {/* SECTION 8: WHY VALMONT */}
       <Reveal>
-        <section className="px-6 lg:px-8 py-20">
-          <div className="max-w-5xl mx-auto glass rounded-3xl p-12">
-            <h2 className="text-3xl md:text-4xl font-black uppercase mb-8">
-              Marketing, Engineered.
-            </h2>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                <span className="text-gray-300">AI-driven decision making</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                <span className="text-gray-300">Automated growth workflows</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                <span className="text-gray-300">Data-backed optimization</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                <span className="text-gray-300">Systems that scale with revenue</span>
-              </li>
-            </ul>
+        <section className="px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-4xl mx-auto">
+            <div className="glass rounded-3xl p-8 sm:p-12 md:p-16">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black uppercase mb-8 sm:mb-12 leading-tight">
+                Why Brands Work With Valmont
+              </h2>
+              
+              <div className="space-y-4 sm:space-y-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <p className="text-base sm:text-lg text-gray-300">
+                    Consultancy thinking, not just execution
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <p className="text-base sm:text-lg text-gray-300">
+                    Systems instead of random marketing
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <p className="text-base sm:text-lg text-gray-300">
+                    Long-term growth infrastructure
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <p className="text-base sm:text-lg text-gray-300">
+                    AI-assisted intelligence via VANTIX
+                  </p>
+                </div>
+
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
+                  <p className="text-base sm:text-lg text-gray-300">
+                    Built for scale
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </Reveal>
 
-      {/* Final CTA Section */}
-      <section className="px-6 lg:px-8 py-20">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
-          <Reveal>
-            <div className="glass rounded-3xl p-12">
-              <h2 className="text-3xl md:text-4xl font-black uppercase mb-8">
-                Why Valmont
-              </h2>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                  <span className="text-gray-300">Built on AI, not manual labor</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                  <span className="text-gray-300">Systems before tactics</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal shadow-[0_0_10px_rgba(0,212,191,0.6)] mt-2 flex-shrink-0" />
-                  <span className="text-gray-300">Designed for long-term scale</span>
-                </li>
-              </ul>
-            </div>
-          </Reveal>
+      {/* SECTION 9: FINAL CTA */}
+      <Reveal>
+        <section className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase mb-6 sm:mb-8 leading-tight">
+              Ready to Build a Real
+              <br />
+              <span className="text-teal">Growth System?</span>
+            </h2>
+            
+            <p className="text-base sm:text-lg md:text-xl text-gray-300 mb-10 sm:mb-12 max-w-2xl mx-auto">
+              If you need strategy, execution, and intelligence working together, Valmont is built for that.
+            </p>
 
-          <Reveal delay={0.2}>
-            <div className="glass rounded-3xl p-12 flex flex-col justify-center">
-              <h2 className="text-3xl md:text-4xl font-black uppercase mb-6">
-                Ready to Build
-                <br />
-                <span className="text-teal">Smarter Growth?</span>
-              </h2>
-              <Link
-                href="/contact"
-                className="inline-block px-8 py-4 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] text-center"
-              >
-                Start Building
-              </Link>
-            </div>
-          </Reveal>
+            <Link
+              href="/contact"
+              className="inline-block px-10 py-5 text-sm font-bold tracking-wide uppercase bg-teal hover:bg-teal-600 text-black rounded-full transition-all duration-300 hover:shadow-[0_0_40px_rgba(0,212,191,0.5)] hover:scale-105"
+            >
+              Book a Consultation
+            </Link>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* FOOTER */}
+      <footer className="border-t border-teal/10 px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">
+            Valmont Marketing & Consultancy
+          </p>
+          <p className="text-xs text-gray-600">
+            Strategic Growth Infrastructure, Consulting, and Execution
+          </p>
+          <p className="text-xs text-teal mt-2">
+            Powered by VANTIX
+          </p>
         </div>
-      </section>
+      </footer>
     </main>
   );
 }
