@@ -409,27 +409,6 @@ export default function Home() {
         </section>
       </Reveal>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/5 px-4 sm:px-6 py-16">
-        <div className="max-w-[1200px] mx-auto text-center">
-          <p className="text-sm font-bold uppercase tracking-wider text-gray-300 mb-2">
-            Valmont Marketing & Consultancy
-          </p>
-          <p className="text-xs text-gray-500 mb-1">
-            Strategic Growth Infrastructure, Consulting, and Execution
-          </p>
-          <p className="text-xs text-teal font-semibold mb-8">
-            Powered by VANTIX
-          </p>
-          <div className="flex flex-wrap justify-center gap-6 text-xs font-medium uppercase tracking-wider">
-            <Link href="/" className="text-gray-500 hover:text-teal transition-colors">Home</Link>
-            <Link href="/systems" className="text-gray-500 hover:text-teal transition-colors">Systems</Link>
-            <Link href="/intelligence" className="text-gray-500 hover:text-teal transition-colors">Intelligence</Link>
-            <Link href="/assurance" className="text-gray-500 hover:text-teal transition-colors">VANTIX</Link>
-            <Link href="/contact" className="text-gray-500 hover:text-teal transition-colors">Contact</Link>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }
