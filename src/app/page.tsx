@@ -39,7 +39,7 @@ export default function Home() {
               </p>
               
               <p className="text-sm font-medium text-teal mb-8 sm:mb-10">
-                Powered by VANTIX.
+                Powered by VANTIX AI.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -66,7 +66,7 @@ export default function Home() {
                     { label: "Infrastructure" },
                     { label: "Execution" },
                     { label: "Data" },
-                    { label: "VANTIX", highlight: true },
+                    { label: "VANTIX AI", highlight: true },
                     { label: "Growth", highlight: true }
                   ]}
                   direction="vertical"
@@ -104,7 +104,7 @@ export default function Home() {
             </div>
 
             <p className="text-center text-sm text-gray-400">
-              Results achieved through structured systems and VANTIX intelligence.
+              Results achieved through structured systems and VANTIX AI intelligence.
             </p>
           </div>
         </section>
@@ -190,7 +190,7 @@ export default function Home() {
                       where your growth system is underperforming.
                     </p>
                     <p className="text-base text-gray-300 leading-relaxed">
-                      This is not a generic agency audit. It is a strategic review powered by VANTIX.
+                      This is not a generic agency audit. It is a strategic review powered by VANTIX AI.
                     </p>
                   </div>
                   <div className="flex justify-center lg:justify-start">
@@ -304,7 +304,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <GlowButton href="/systems" variant="primary" size="md">
+              <GlowButton href="/systems" variant="primary" size="lg">
                 View Systems & Pricing
               </GlowButton>
             </div>
@@ -320,23 +320,23 @@ export default function Home() {
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div className="text-center lg:text-left">
                   <p className="text-xs font-semibold tracking-[0.3em] uppercase text-gray-500 mb-6">
-                    VANTIX
+                    VANTIX AI
                   </p>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-8 leading-tight">
                     The Intelligence Layer Behind Every Valmont System
                   </h2>
                   <div className="space-y-4 mb-8">
                     <p className="text-base text-gray-300 leading-relaxed">
-                      VANTIX monitors performance, identifies inefficiencies, detects opportunities, 
+                      VANTIX AI monitors performance, identifies inefficiencies, detects opportunities, 
                       and supports smarter growth decisions.
                     </p>
                     <p className="text-base text-gray-300 leading-relaxed">
-                      Every Valmont engagement is strengthened by VANTIX-powered intelligence.
+                      Every Valmont engagement is strengthened by VANTIX AI-powered intelligence.
                     </p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                     <GlowButton href="/assurance" variant="primary" size="md">
-                      Discover VANTIX
+                      Discover VANTIX AI
                     </GlowButton>
                     <GlowButton href="/contact" variant="secondary" size="md">
                       Book Demo
@@ -351,7 +351,7 @@ export default function Home() {
                       { label: "Funnel" },
                       { label: "CRM" },
                       { label: "Data" },
-                      { label: "VANTIX", highlight: true },
+                      { label: "VANTIX AI", highlight: true },
                       { label: "Optimization", highlight: true }
                     ]}
                     direction="vertical"
@@ -386,7 +386,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">VANTIX-powered intelligence</p>
+                  <p className="text-base text-gray-300">VANTIX AI-powered intelligence</p>
                 </div>
                 <div className="flex items-start gap-4">
                   <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />

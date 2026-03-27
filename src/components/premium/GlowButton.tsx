@@ -29,7 +29,7 @@ export default function GlowButton({
 
   const variants = {
     primary: "bg-teal hover:bg-teal-600 text-black shadow-glow hover:shadow-glow-lg",
-    secondary: "bg-transparent border-2 border-teal/40 hover:border-teal text-teal hover:bg-teal/10 shadow-glow-sm hover:shadow-glow",
+    secondary: "bg-transparent border-2 border-teal hover:border-teal text-teal hover:bg-teal/10 shadow-glow-sm hover:shadow-glow",
   };
 
   const buttonClasses = `
