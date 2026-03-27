@@ -304,9 +304,20 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <GlowButton href="/systems" variant="secondary" size="lg">
-                View Systems & Pricing
-              </GlowButton>
+              <Link 
+                href="/systems"
+                className="group inline-flex items-center gap-3 px-10 py-4 bg-transparent border-2 border-[#00d2a0] rounded-lg text-[#00d2a0] font-bold text-sm tracking-[0.2em] uppercase transition-all duration-500 hover:shadow-[0_0_20px_rgba(0,210,160,0.6),0_0_40px_rgba(0,210,160,0.3)] hover:border-[#00d2a0]"
+              >
+                <span>View Systems & Pricing</span>
+                <svg 
+                  className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </div>
         </section>
