@@ -2,9 +2,9 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 px-4 sm:px-6 py-16 sm:py-20">
-      <div className="max-w-[1200px] mx-auto">
-        {/* 3 Column Layout - Desktop */}
+    <footer className="border-t border-white/10">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-16 sm:py-20">
+        {/* 3 Column Layout */}
         <div className="grid md:grid-cols-3 gap-12 mb-12">
           {/* Column 1: Company Info */}
           <div>
@@ -60,7 +60,7 @@ export default function Footer() {
                 Book Consultation
               </Link>
               <Link 
-                href="/contact" 
+                href="/systems" 
                 className="block text-sm text-gray-400 hover:text-teal transition-colors"
               >
                 Start System
@@ -75,20 +75,22 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Line */}
-        <div className="border-t border-white/5 pt-8">
+        {/* Bottom Section */}
+        <div className="pt-8 border-t border-white/5">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-center sm:text-left">
-              <p className="text-xs text-gray-500">
-                © Valmont Marketing
+              <p className="text-sm text-gray-500">
+                © Valmont Marketing & Consultancy
               </p>
               <p className="text-xs text-gray-600 mt-1">
+                Systems. Automation. Intelligence.
+              </p>
+            </div>
+            <div className="text-center sm:text-right">
+              <p className="text-xs text-gray-600">
                 AI Infrastructure & Intelligence Systems
               </p>
             </div>
-            <p className="text-xs text-gray-600">
-              Systems. Automation. Intelligence.
-            </p>
           </div>
         </div>
       </div>
