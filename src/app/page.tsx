@@ -304,7 +304,7 @@ export default function Home() {
             </div>
 
             <div className="text-center">
-              <GlowButton href="/systems" variant="primary" size="lg">
+              <GlowButton href="/systems" variant="secondary" size="lg">
                 View Systems & Pricing
               </GlowButton>
             </div>
