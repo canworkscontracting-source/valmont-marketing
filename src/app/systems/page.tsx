@@ -83,10 +83,168 @@ export default function SystemsPage() {
         </div>
       </section>
 
-      {/* METRICS SECTION */}
+      {/* SYSTEM WORKFLOW SECTION */}
       <Reveal>
         <section className="relative px-4 sm:px-6 py-20 sm:py-32">
-          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal/5 to-transparent pointer-events-none" />
+          
+          <div className="max-w-[1200px] mx-auto relative z-10">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">
+                How Systems Work
+              </h2>
+              <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+                Every system follows a proven workflow from strategy to execution
+              </p>
+            </div>
+
+            <div className="mb-16">
+              <AnimatedDiagram
+                title="VALMONT SYSTEM WORKFLOW"
+                nodes={[
+                  { label: "Discovery" },
+                  { label: "Strategy" },
+                  { label: "Design" },
+                  { label: "Build" },
+                  { label: "Launch" },
+                  { label: "VANTIX AI", highlight: true },
+                  { label: "Optimize", highlight: true }
+                ]}
+                direction="horizontal"
+              />
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <PremiumCard glow hover delay={0}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 1: Discovery</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  We analyze your current infrastructure, identify gaps, and map your growth objectives.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.1}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 2: Strategy</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Strategic planning for positioning, messaging, funnel architecture, and automation flows.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.2}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 3: Build</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  We build your infrastructure — websites, funnels, CRM, automation, and tracking systems.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.3}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 4: Launch</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Systems go live with monitoring, testing, and validation to ensure everything works.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.4}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 5: VANTIX AI</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Continuous intelligence monitoring identifies opportunities and inefficiencies.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.5}>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Phase 6: Optimize</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Ongoing refinement based on data, performance, and evolving business needs.
+                </p>
+              </PremiumCard>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* AUTOMATION FLOWS */}
+      <Reveal>
+        <section className="relative px-4 sm:px-6 py-20 sm:py-32">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">
+                Built-In Automation
+              </h2>
+              <p className="text-gray-400 text-sm max-w-2xl mx-auto">
+                Every system includes intelligent automation powered by VANTIX AI
+              </p>
+            </div>
+
+            <PremiumCard glow={true} hover={false} className="p-10 sm:p-16 mb-12">
+              <AnimatedDiagram
+                title="AUTOMATION FLOW EXAMPLE"
+                nodes={[
+                  { label: "Visitor" },
+                  { label: "Lead Capture" },
+                  { label: "CRM Entry" },
+                  { label: "Email Sequence" },
+                  { label: "VANTIX AI", highlight: true },
+                  { label: "Conversion", highlight: true }
+                ]}
+                direction="horizontal"
+              />
+            </PremiumCard>
+
+            <div className="grid sm:grid-cols-2 gap-6">
+              <PremiumCard glow hover delay={0}>
+                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Email Automation</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Triggered sequences, nurture campaigns, and behavioral email flows that respond to user actions.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.1}>
+                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">CRM Integration</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Automated lead scoring, pipeline updates, and contact management synced across all systems.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.2}>
+                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">Smart Notifications</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Real-time alerts for high-intent leads, conversion events, and system performance changes.
+                </p>
+              </PremiumCard>
+
+              <PremiumCard glow hover delay={0.3}>
+                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold uppercase mb-3 text-teal">VANTIX AI Optimization</h3>
+                <p className="text-sm text-gray-300 leading-relaxed">
+                  Automated A/B testing, conversion tracking, and performance optimization recommendations.
+                </p>
+              </PremiumCard>
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      {/* METRICS SECTION */}
+      <Reveal>
+        <section className="relative px-4 sm:px-6 py-20 sm:py-32 system-performance-section">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal/5 to-transparent pointer-events-none" />
           
           <div className="max-w-[1200px] mx-auto relative z-10">
@@ -99,7 +257,7 @@ export default function SystemsPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 metrics-grid">
               <AnimatedMetric value={89} suffix="%" label="Implementation Success" delay={0} />
               <AnimatedMetric value={4.2} suffix="x" label="Efficiency Improvement" delay={0.1} />
               <AnimatedMetric value={67} suffix="%" label="Cost Reduction" delay={0.2} />
@@ -123,7 +281,7 @@ export default function SystemsPage() {
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12 pricing-grid">
               {/* STARTER SYSTEM */}
               <PremiumCard glow hover delay={0}>
                 <div className="flex flex-col h-full">
@@ -416,7 +574,6 @@ export default function SystemsPage() {
       {/* WHAT'S INCLUDED */}
       <Reveal>
         <section className="relative px-4 sm:px-6 py-20 sm:py-32">
-          {/* Animated gradient background */}
           <div className="absolute inset-0 bg-gradient-to-r from-teal/5 via-transparent to-teal/5 pointer-events-none" />
           
           <div className="max-w-[1200px] mx-auto relative z-10">
@@ -514,6 +671,23 @@ export default function SystemsPage() {
           </div>
         </section>
       </Reveal>
+
+      {/* DESKTOP-ONLY LAYOUT FIXES */}
+      <style jsx global>{`
+        @media (min-width: 1024px) {
+          /* Fix System Performance section spacing */
+          .system-performance-section .metrics-grid {
+            gap: 2rem;
+            margin-bottom: 2rem;
+          }
+          
+          /* Fix Pricing cards spacing */
+          .pricing-grid {
+            gap: 1.5rem;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+          }
+        }
+      `}</style>
     </main>
   );
 }
