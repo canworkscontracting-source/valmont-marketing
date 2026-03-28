@@ -9,428 +9,477 @@ import AnimatedMetric from "@/components/premium/AnimatedMetric";
 import GlowButton from "@/components/premium/GlowButton";
 import AnimatedDiagram from "@/components/premium/AnimatedDiagram";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen">
-      {/* HERO SECTION */}
-      <section className="px-4 sm:px-6 pt-32 pb-20 sm:pt-40 sm:pb-32">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: Content */}
+    <>
+      <main className="min-h-screen relative overflow-hidden">
+        {/* Enhanced particle backgrounds */}
+        <div className="fixed inset-0 pointer-events-none z-0">
+          <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-teal/20 rounded-full blur-[150px] animate-pulse-slow" />
+          <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-teal/15 rounded-full blur-[150px] animate-pulse-slow" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-teal/10 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+          
+          {/* Floating particles */}
+          <div className="absolute inset-0 overflow-hidden">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="floating-particle absolute w-1 h-1 bg-teal/30 rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${15 + Math.random() * 10}s`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* HERO - BIG TEXT */}
+        <section className="hero-section relative px-4 sm:px-6 pt-32 pb-24 sm:pt-40 sm:pb-32 lg:pt-48 lg:pb-40">
+          <div className="max-w-[1400px] mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center lg:text-left"
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="text-center"
             >
-              <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-500 mb-6 sm:mb-8">
-                Valmont Marketing & Consultancy
+              <p className="text-xs sm:text-sm font-medium tracking-[0.2em] uppercase text-gray-500 mb-8 sm:mb-10 animate-fade-in">
+                India's First AI-Driven Marketing Agency
               </p>
               
-              <GradientText className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl mb-6 sm:mb-8 leading-tight">
-                Growth Systems for Brands
+              <GradientText className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black uppercase mb-8 sm:mb-12 leading-[1.1] break-words animate-gradient-shift px-4">
+                Valmont Marketing
                 <br />
-                That Want More Than Marketing
+                and Consultancy
               </GradientText>
               
-              <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-4 max-w-xl mx-auto lg:mx-0">
-                We combine consulting, execution, and AI-powered intelligence to help brands acquire customers, 
-                improve conversion, and scale with structure.
+              <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 leading-relaxed mb-6 sm:mb-8 max-w-4xl mx-auto break-words px-4">
+                Strategic systems powered by VANTIX AI intelligence.
+                <br className="hidden sm:block" />
+                We build infrastructure for controlled growth.
               </p>
               
-              <p className="text-sm font-medium text-teal mb-8 sm:mb-10">
-                Powered by VANTIX AI.
+              <p className="text-base sm:text-lg font-medium text-teal mb-10 sm:mb-12 animate-pulse-subtle">
+                Consulting. Automation. Execution.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <GlowButton href="/contact" variant="primary" size="md">
-                  Book Consultation
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+                <GlowButton href="/systems" variant="primary" size="lg">
+                  View Systems
                 </GlowButton>
-                <GlowButton href="/systems" variant="secondary" size="md">
-                  Explore Systems
+                <GlowButton href="/contact" variant="secondary" size="lg">
+                  Book Consultation
                 </GlowButton>
               </div>
             </motion.div>
-
-            {/* Right: System Diagram */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="hidden lg:block"
-            >
-              <PremiumCard glow={true} hover={false}>
-                <AnimatedDiagram
-                  nodes={[
-                    { label: "Strategy" },
-                    { label: "Infrastructure" },
-                    { label: "Execution" },
-                    { label: "Data" },
-                    { label: "VANTIX AI", highlight: true },
-                    { label: "Growth", highlight: true }
-                  ]}
-                  direction="vertical"
-                />
-              </PremiumCard>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* POSITIONING STRIP */}
-      <section className="py-6 border-y border-white/10">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <p className="text-center text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-gray-500">
-            CONSULTING · AUTOMATION · ACQUISITION · PERFORMANCE · INTELLIGENCE
-          </p>
-        </div>
-      </section>
-
-      {/* METRICS SECTION */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">
-                Built Through Systems, Not Guesswork
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 mb-6">
-              <AnimatedMetric value={2.5} suffix="x" label="Average ROAS" delay={0} />
-              <AnimatedMetric value={3} suffix="x" label="Revenue Growth" delay={0.1} />
-              <AnimatedMetric value={92} suffix="%" label="Client Retention" delay={0.2} />
-              <AnimatedMetric value={2.8} suffix="x" label="Average ROI" delay={0.3} />
-            </div>
-
-            <p className="text-center text-sm text-gray-400">
-              Results achieved through structured systems and VANTIX AI intelligence.
-            </p>
           </div>
         </section>
-      </Reveal>
 
-      {/* WHAT WE DO */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-4">
-                We Design Growth Systems
-              </h2>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              <PremiumCard glow hover delay={0}>
-                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold uppercase mb-3 text-teal">
-                  Consulting
-                </h3>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Strategy, positioning, growth planning
+        {/* WHAT WE DO */}
+        <Reveal>
+          <section className="relative px-4 sm:px-6 py-20 sm:py-32 section-spacing">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal/5 to-transparent pointer-events-none shimmer-bg" />
+            
+            <div className="content-container max-w-[1400px] mx-auto relative z-10">
+              <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight mb-6 break-words">
+                  What We Do
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg max-w-3xl mx-auto break-words">
+                  We build strategic marketing systems powered by AI intelligence
                 </p>
-              </PremiumCard>
+              </div>
 
-              <PremiumCard glow hover delay={0.1}>
-                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold uppercase mb-3 text-teal">
-                  Systems
-                </h3>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Websites, funnels, automation, infrastructure
-                </p>
-              </PremiumCard>
-
-              <PremiumCard glow hover delay={0.2} className="sm:col-span-2 lg:col-span-1">
-                <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold uppercase mb-3 text-teal">
-                  Intelligence
-                </h3>
-                <p className="text-sm text-gray-300 leading-relaxed">
-                  Performance monitoring, optimization, decision support
-                </p>
-              </PremiumCard>
-            </div>
-
-            <p className="text-center text-base font-bold text-gray-200">
-              Everything works as one system.
-            </p>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* FREE AUDIT */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <PremiumCard glow={true} hover={false} className="p-10 sm:p-16">
-              <div className="grid lg:grid-cols-2 gap-10 items-center">
-                <div className="text-center lg:text-left">
-                  <p className="text-xs font-semibold tracking-[0.3em] uppercase text-gray-500 mb-6">
-                    STRATEGIC ENTRY POINT
-                  </p>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-6 leading-tight">
-                    Free AI Growth Audit
-                  </h2>
-                  <div className="space-y-4 mb-8">
-                    <p className="text-base text-gray-300 leading-relaxed">
-                      We review your current marketing, positioning, and digital infrastructure to identify 
-                      where your growth system is underperforming.
-                    </p>
-                    <p className="text-base text-gray-300 leading-relaxed">
-                      This is not a generic agency audit. It is a strategic review powered by VANTIX AI.
-                    </p>
-                  </div>
-                  <div className="flex justify-center lg:justify-start">
-                    <GlowButton href="/contact" variant="primary" size="md">
-                      Get My Free Audit
-                    </GlowButton>
-                  </div>
-                </div>
-
-                <div className="hidden lg:block">
-                  <div className="border border-teal/20 rounded-lg p-6 bg-teal/[0.02]">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-teal mb-4">
-                      Strategic Audit Includes
-                    </p>
-                    <div className="space-y-3">
-                      <div className="text-sm text-gray-300">→ Current system analysis</div>
-                      <div className="text-sm text-gray-300">→ Performance gaps</div>
-                      <div className="text-sm text-gray-300">→ Growth opportunities</div>
-                      <div className="text-sm text-gray-300">→ Infrastructure recommendations</div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {[
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />,
+                    title: "VANTIX AI Intelligence",
+                    desc: "Our proprietary AI platform monitors and optimizes every aspect of your marketing infrastructure in real-time."
+                  },
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />,
+                    title: "Strategic Planning",
+                    desc: "Data-driven strategy and execution roadmaps designed to achieve measurable business outcomes."
+                  },
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />,
+                    title: "Marketing Automation",
+                    desc: "Intelligent workflows that capture, nurture, and convert leads across all channels automatically."
+                  },
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />,
+                    title: "Web Infrastructure",
+                    desc: "High-performance websites and funnels built to convert visitors into customers at scale."
+                  },
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />,
+                    title: "Growth Systems",
+                    desc: "Integrated acquisition and retention systems designed to compound growth over time."
+                  },
+                  {
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />,
+                    title: "Performance Analytics",
+                    desc: "Real-time dashboards and reporting powered by VANTIX AI to track what matters most."
+                  }
+                ].map((item, i) => (
+                  <PremiumCard key={i} glow hover delay={i * 0.1} className="card-dramatic-hover h-full">
+                    <div className="flex flex-col h-full">
+                      <div className="w-14 h-14 rounded-lg bg-teal/10 flex items-center justify-center mb-5 flex-shrink-0 icon-float">
+                        <svg className="w-7 h-7 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          {item.icon}
+                        </svg>
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold uppercase mb-3 text-teal break-words">{item.title}</h3>
+                      <p className="text-sm sm:text-base text-gray-300 leading-relaxed break-words">{item.desc}</p>
                     </div>
-                  </div>
-                </div>
+                  </PremiumCard>
+                ))}
               </div>
-            </PremiumCard>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* SYSTEMS OVERVIEW */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <div className="text-center mb-12 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-4">
-                Our Systems
-              </h2>
             </div>
+          </section>
+        </Reveal>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 sm:mb-12">
-              <Link href="/systems" className="block group">
-                <PremiumCard glow hover delay={0}>
-                  <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Starter System
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">For early-stage businesses</p>
-                  <div className="flex items-center gap-2 text-teal">
-                    <span className="text-sm font-medium">Start at $499</span>
-                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </PremiumCard>
-              </Link>
+        {/* HOW IT WORKS */}
+        <Reveal>
+          <section className="relative px-4 sm:px-6 py-20 sm:py-32 section-spacing">
+            <div className="content-container max-w-[1400px] mx-auto">
+              <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight mb-6 break-words">
+                  How It Works
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg max-w-3xl mx-auto break-words">
+                  Every engagement follows our proven process
+                </p>
+              </div>
 
-              <Link href="/systems" className="block group">
-                <PremiumCard glow hover delay={0.1}>
-                  <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Growth System
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">For growing businesses</p>
-                  <div className="flex items-center gap-2 text-teal">
-                    <span className="text-sm font-medium">Start at $899</span>
-                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </PremiumCard>
-              </Link>
-
-              <Link href="/systems" className="block group">
-                <PremiumCard glow hover delay={0.2}>
-                  <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Scale System
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">For scaling companies</p>
-                  <div className="flex items-center gap-2 text-teal">
-                    <span className="text-sm font-medium">Start at $1299</span>
-                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </PremiumCard>
-              </Link>
-
-              <Link href="/contact" className="block group">
-                <PremiumCard glow hover delay={0.3}>
-                  <div className="w-12 h-12 rounded-lg bg-teal/10 flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-bold uppercase mb-2 text-teal">
-                    Custom System
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">For full infrastructure</p>
-                  <div className="flex items-center gap-2 text-teal">
-                    <span className="text-sm font-medium">Custom Plan</span>
-                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </PremiumCard>
-              </Link>
-            </div>
-
-            <div className="text-center">
-              <Link 
-                href="/systems"
-                className="group inline-flex items-center gap-3 px-10 py-4 bg-transparent border-2 border-[#00d2a0] rounded-lg text-[#00d2a0] font-bold text-sm tracking-[0.2em] uppercase transition-all duration-500 hover:shadow-[0_0_20px_rgba(0,210,160,0.6),0_0_40px_rgba(0,210,160,0.3)] hover:border-[#00d2a0]"
-              >
-                <span>View Systems & Pricing</span>
-                <svg 
-                  className="w-5 h-5 transform group-hover:translate-x-2 transition-transform duration-300" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </section>
-      </Reveal>
-
-      {/* VANTIX SECTION */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <PremiumCard glow={true} hover={false} className="p-10 sm:p-16">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div className="text-center lg:text-left">
-                  <p className="text-xs font-semibold tracking-[0.3em] uppercase text-gray-500 mb-6">
-                    VANTIX AI
-                  </p>
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-8 leading-tight">
-                    The Intelligence Layer Behind Every Valmont System
-                  </h2>
-                  <div className="space-y-4 mb-8">
-                    <p className="text-base text-gray-300 leading-relaxed">
-                      VANTIX AI monitors performance, identifies inefficiencies, detects opportunities, 
-                      and supports smarter growth decisions.
-                    </p>
-                    <p className="text-base text-gray-300 leading-relaxed">
-                      Every Valmont engagement is strengthened by VANTIX AI-powered intelligence.
-                    </p>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <GlowButton href="/assurance" variant="primary" size="md">
-                      Discover VANTIX AI
-                    </GlowButton>
-                    <GlowButton href="/contact" variant="secondary" size="md">
-                      Book Demo
-                    </GlowButton>
-                  </div>
-                </div>
-
-                <div>
+              {/* Desktop: Horizontal diagram */}
+              <div className="hidden lg:block">
+                <PremiumCard glow={true} hover={false} className="p-10 lg:p-16 card-dramatic">
                   <AnimatedDiagram
+                    title="OUR PROCESS"
                     nodes={[
-                      { label: "Traffic" },
-                      { label: "Funnel" },
-                      { label: "CRM" },
-                      { label: "Data" },
+                      { label: "Discovery" },
+                      { label: "Strategy" },
+                      { label: "Build" },
+                      { label: "Launch" },
                       { label: "VANTIX AI", highlight: true },
-                      { label: "Optimization", highlight: true }
+                      { label: "Optimize", highlight: true }
                     ]}
-                    direction="vertical"
+                    direction="horizontal"
                   />
-                </div>
+                </PremiumCard>
               </div>
-            </PremiumCard>
-          </div>
-        </section>
-      </Reveal>
 
-      {/* WHY VALMONT */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-20 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <PremiumCard glow={true} hover={false} className="p-10 sm:p-16">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-10 text-center lg:text-left">
-                Built for Serious Growth
-              </h2>
-              <div className="space-y-5">
-                <div className="flex items-start gap-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">Consultancy thinking, not just execution</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">Systems instead of random marketing</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">Long-term growth infrastructure</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">VANTIX AI-powered intelligence</p>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-1.5 h-1.5 rounded-full bg-teal mt-2 flex-shrink-0" />
-                  <p className="text-base text-gray-300">Designed for controlled scale</p>
-                </div>
+              {/* Mobile: Vertical cards */}
+              <div className="lg:hidden space-y-0">
+                {[
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />,
+                    title: "Discovery", 
+                    desc: "We analyze your business and identify opportunities." 
+                  },
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />,
+                    title: "Strategy", 
+                    desc: "Build a data-driven roadmap for growth." 
+                  },
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />,
+                    title: "Build", 
+                    desc: "Deploy systems and automation infrastructure." 
+                  },
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />,
+                    title: "Launch", 
+                    desc: "Go live with full monitoring and support." 
+                  },
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />,
+                    title: "VANTIX AI", 
+                    desc: "AI continuously monitors and improves performance.", 
+                    highlight: true 
+                  },
+                  { 
+                    icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />,
+                    title: "Optimize", 
+                    desc: "Ongoing improvements based on data insights.", 
+                    highlight: true 
+                  }
+                ].map((step, i) => (
+                  <div key={i}>
+                    <PremiumCard glow hover delay={i * 0.05} className={step.highlight ? 'card-highlight-pulse' : ''}>
+                      <div className="flex items-start gap-4">
+                        <div className={`w-12 h-12 rounded-lg ${step.highlight ? 'bg-teal/30 node-glow-pulse' : 'bg-teal/10'} flex items-center justify-center flex-shrink-0 transition-all duration-300`}>
+                          <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            {step.icon}
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className={`text-base font-bold uppercase mb-2 break-words ${step.highlight ? 'text-teal animate-glow-text' : 'text-white'}`}>
+                            {step.title}
+                          </h3>
+                          <p className="text-sm text-gray-300 break-words">{step.desc}</p>
+                        </div>
+                      </div>
+                    </PremiumCard>
+                    {i < 5 && (
+                      <div className="flex justify-center py-3 relative">
+                        <div className="connection-line w-0.5 h-8 bg-gradient-to-b from-teal/50 via-teal/30 to-teal/50 relative overflow-hidden">
+                          <div className="flow-dot absolute w-2 h-2 bg-teal rounded-full -left-[3px]"></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            </PremiumCard>
-          </div>
-        </section>
-      </Reveal>
+            </div>
+          </section>
+        </Reveal>
 
-      {/* FINAL CTA */}
-      <Reveal>
-        <section className="px-4 sm:px-6 py-24 sm:py-32">
-          <div className="max-w-[1200px] mx-auto">
-            <PremiumCard glow={true} hover={false} className="p-12 sm:p-20 text-center">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-12 leading-tight">
-                Ready to Build a Real
-                <br />
-                <span className="text-teal">Growth System?</span>
-              </h2>
-              <p className="text-base sm:text-lg text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                If you need strategy, execution, and intelligence working together, Valmont is built for that.
-              </p>
-              <div className="flex justify-center">
-                <GlowButton href="/contact" variant="primary" size="lg">
-                  Book Consultation
-                </GlowButton>
+        {/* RESULTS */}
+        <Reveal>
+          <section className="relative px-4 sm:px-6 py-20 sm:py-32 section-spacing">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal/5 to-transparent pointer-events-none shimmer-bg" />
+            
+            <div className="max-w-[1400px] mx-auto relative z-10">
+              <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight mb-6 break-words">
+                  Average Results
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg break-words">
+                  Performance across all client engagements
+                </p>
               </div>
-            </PremiumCard>
-          </div>
-        </section>
-      </Reveal>
-    </main>
+
+              <div className="performance-metrics-grid grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                <AnimatedMetric value={89} suffix="%" label="System Efficiency" delay={0} />
+                <AnimatedMetric value={4.2} suffix="x" label="Average ROI" delay={0.1} />
+                <AnimatedMetric value={67} suffix="%" label="Conversion Lift" delay={0.2} />
+                <AnimatedMetric value={30} suffix=" Days" label="Time to ROI" delay={0.3} />
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        {/* WHY VALMONT */}
+        <Reveal>
+          <section className="relative px-4 sm:px-6 py-20 sm:py-32 section-spacing">
+            <div className="content-container max-w-[1400px] mx-auto">
+              <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black uppercase tracking-tight mb-6 break-words">
+                  Why Valmont
+                </h2>
+                <p className="text-gray-400 text-base sm:text-lg max-w-3xl mx-auto break-words">
+                  India's first AI-driven marketing agency
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+                {[
+                  {
+                    title: "AI-First Approach",
+                    desc: "VANTIX AI is our proprietary intelligence platform that monitors, analyzes, and optimizes every campaign in real-time. What takes agencies weeks takes us hours."
+                  },
+                  {
+                    title: "Systems Over Services",
+                    desc: "We don't sell projects. We build infrastructure. Every system we deliver is designed to run, scale, and compound results without constant human intervention."
+                  },
+                  {
+                    title: "Strategy + Execution",
+                    desc: "Most agencies either strategize or execute. We do both. Our consultants build the roadmap, our engineers build the systems, and VANTIX AI keeps everything optimized."
+                  },
+                  {
+                    title: "Built for Scale",
+                    desc: "Our systems are designed from day one to handle growth. Whether you're doing ₹10L or ₹10Cr in revenue, the infrastructure scales with you."
+                  }
+                ].map((item, i) => (
+                  <PremiumCard key={i} glow hover delay={i * 0.1} className="card-dramatic-hover">
+                    <h3 className="text-xl sm:text-2xl font-black uppercase mb-4 text-teal break-words">{item.title}</h3>
+                    <p className="text-base sm:text-lg text-gray-300 leading-relaxed break-words">{item.desc}</p>
+                  </PremiumCard>
+                ))}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        {/* CTA */}
+        <Reveal>
+          <section className="px-4 sm:px-6 py-24 sm:py-32">
+            <div className="max-w-[1400px] mx-auto">
+              <PremiumCard glow={true} hover={false} className="p-10 sm:p-16 lg:p-24 text-center card-dramatic">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-8 sm:mb-12 leading-tight break-words">
+                  Ready to Build Your
+                  <br />
+                  <span className="text-teal animate-glow-text">Growth System?</span>
+                </h2>
+                <p className="text-base sm:text-lg lg:text-xl text-gray-300 mb-10 sm:mb-12 max-w-3xl mx-auto leading-relaxed break-words">
+                  Book a consultation to discuss your business goals and explore which system is right for you.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+                  <GlowButton href="/contact" variant="primary" size="lg">
+                    Book Consultation
+                  </GlowButton>
+                  <GlowButton href="/systems" variant="secondary" size="lg">
+                    View Systems & Pricing
+                  </GlowButton>
+                </div>
+              </PremiumCard>
+            </div>
+          </section>
+        </Reveal>
+      </main>
+
+      {/* PALANTIR-LEVEL ANIMATIONS */}
+      <style jsx global>{`
+        /* Floating particles */
+        @keyframes float {
+          0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+          50% { transform: translateY(-100px) translateX(50px); opacity: 0.8; }
+        }
+        .floating-particle {
+          animation: float linear infinite;
+        }
+
+        /* Flowing dots */
+        @keyframes flow {
+          0% { top: -10px; opacity: 0; }
+          50% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+        .flow-dot {
+          animation: flow 2s ease-in-out infinite;
+        }
+
+        /* Node glow pulse */
+        @keyframes node-glow {
+          0%, 100% { 
+            box-shadow: 0 0 20px rgba(20, 184, 166, 0.4),
+                        0 0 40px rgba(20, 184, 166, 0.2);
+          }
+          50% { 
+            box-shadow: 0 0 30px rgba(20, 184, 166, 0.6),
+                        0 0 60px rgba(20, 184, 166, 0.3),
+                        inset 0 0 20px rgba(20, 184, 166, 0.2);
+          }
+        }
+        .node-glow-pulse {
+          animation: node-glow 2s ease-in-out infinite;
+        }
+
+        /* Text glow */
+        @keyframes glow-text {
+          0%, 100% { text-shadow: 0 0 10px rgba(20, 184, 166, 0.5); }
+          50% { text-shadow: 0 0 20px rgba(20, 184, 166, 0.8), 0 0 30px rgba(20, 184, 166, 0.4); }
+        }
+        .animate-glow-text {
+          animation: glow-text 2s ease-in-out infinite;
+        }
+
+        /* Card highlight pulse */
+        @keyframes card-pulse {
+          0%, 100% { border-color: rgba(20, 184, 166, 0.3); }
+          50% { border-color: rgba(20, 184, 166, 0.6); }
+        }
+        .card-highlight-pulse {
+          border: 1px solid rgba(20, 184, 166, 0.3);
+          animation: card-pulse 2s ease-in-out infinite;
+        }
+
+        /* Dramatic card hover */
+        .card-dramatic-hover {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-dramatic-hover:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: 
+            0 20px 60px -15px rgba(20, 184, 166, 0.3),
+            0 0 40px rgba(20, 184, 166, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Card dramatic */
+        .card-dramatic {
+          box-shadow: 
+            0 10px 40px -10px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(20, 184, 166, 0.1),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Icon float */
+        @keyframes icon-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-5px); }
+        }
+        .icon-float:hover {
+          animation: icon-float 1s ease-in-out infinite;
+        }
+
+        /* Gradient shift */
+        @keyframes gradient-shift {
+          0%, 100% { filter: hue-rotate(0deg); }
+          50% { filter: hue-rotate(10deg); }
+        }
+        .animate-gradient-shift {
+          animation: gradient-shift 8s ease-in-out infinite;
+        }
+
+        /* Shimmer bg */
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+        .shimmer-bg::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(20, 184, 166, 0.03),
+            transparent
+          );
+          background-size: 1000px 100%;
+          animation: shimmer 3s infinite;
+        }
+
+        /* Pulse subtle */
+        @keyframes pulse-subtle {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.8; }
+        }
+        .animate-pulse-subtle {
+          animation: pulse-subtle 3s ease-in-out infinite;
+        }
+
+        /* DESKTOP LAYOUT */
+        @media (min-width: 1024px) {
+          .hero-section {
+            padding-top: 12rem;
+            padding-bottom: 10rem;
+          }
+          
+          .section-spacing {
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+          }
+          
+          .content-container {
+            max-width: 1400px;
+          }
+          
+          .performance-metrics-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+          }
+        }
+      `}</style>
+    </>
   );
 }
