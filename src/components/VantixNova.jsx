@@ -100,6 +100,8 @@ export default function VantixNova() {
     showToast('Details saved! Team will reach out soon.');
   };
 
+  const stripMd = (text) => text.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').replace(/__(.*?)__/g, '$1').replace(/`(.*?)`/g, '$1');
+
   const onKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
   };
@@ -246,7 +248,7 @@ export default function VantixNova() {
                     ? { background: 'linear-gradient(135deg,rgba(0,194,184,.22),rgba(47,128,255,.22))', border: '1px solid rgba(0,194,184,.28)', color: text, borderBottomRightRadius: 3 }
                     : { background: 'rgba(255,255,255,.06)', border: '1px solid rgba(255,255,255,.07)', color: text, borderBottomLeftRadius: 3 })
                 }}>
-                  {m.content}
+                  {stripMd(m.content)}
                 </div>
               </div>
             ))}
