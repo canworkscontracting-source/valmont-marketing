@@ -17,6 +17,34 @@ const LS = {
   set: (k, v) => { try { localStorage.setItem("vx_" + k, JSON.stringify(v)); } catch {} },
 };
 
+function PostThumbnail({ post }) {
+  const isVideo = post.media_type === "VIDEO";
+  const initial = isVideo ? (post.thumbnail_url || post.media_url || null) : (post.media_url || post.thumbnail_url || null);
+  const [imgSrc, setImgSrc] = useState(initial);
+  const [failed, setFailed] = useState(!initial);
+
+  const handleError = () => {
+    if (isVideo && imgSrc === post.thumbnail_url && post.media_url && post.media_url !== post.thumbnail_url) {
+      setImgSrc(post.media_url);
+    } else if (!isVideo && imgSrc === post.media_url && post.thumbnail_url && post.thumbnail_url !== post.media_url) {
+      setImgSrc(post.thumbnail_url);
+    } else {
+      setFailed(true);
+    }
+  };
+
+  if (failed || !imgSrc) {
+    return (
+      <div style={{ position: "absolute", inset: 0, background: C.bg3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 4 }}>
+        <div style={{ fontSize: 22 }}>🎬</div>
+        <div style={{ fontFamily: font.mono, fontSize: 8, color: C.dim, letterSpacing: "0.12em" }}>REEL</div>
+      </div>
+    );
+  }
+
+  return <img src={imgSrc} alt="" onError={handleError} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />;
+}
+
 const Card = ({ children, style = {} }) => (
   <div style={{ background: C.bg2, border: `1px solid ${C.border}`, borderRadius: 4, padding: "20px 22px", ...style }}>{children}</div>
 );
@@ -239,8 +267,8 @@ function InstagramDashboard({ client, token }) {
           {posts.map(post => (
             <div key={post.id} onClick={() => openPost(post)} style={{ background: C.bg2, border: `1px solid ${C.border}`, borderRadius: 4, cursor: "pointer", overflow: "hidden" }}>
               <div style={{ width: "100%", paddingBottom: "100%", position: "relative", background: C.bg3 }}>
-                {(post.media_url || post.thumbnail_url) && <img src={post.media_url || post.thumbnail_url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />}
-                {post.media_type === "VIDEO" && <div style={{ position: "absolute", top: 6, right: 6, background: "rgba(0,0,0,0.7)", borderRadius: 2, padding: "2px 5px", fontSize: 8, fontFamily: font.mono, color: C.white }}>REEL</div>}
+                <PostThumbnail post={post} />
+                {post.media_type === "VIDEO" && <div style={{ position: "absolute", top: 6, right: 6, background: "rgba(0,0,0,0.7)", borderRadius: 2, padding: "2px 5px", fontSize: 8, fontFamily: font.mono, color: C.white, zIndex: 1 }}>REEL</div>}
               </div>
               <div style={{ padding: "8px 10px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -278,7 +306,16 @@ function InstagramDashboard({ client, token }) {
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 16 }}>
               <Card>
-                {(selectedPost.media_url || selectedPost.thumbnail_url) && <img src={selectedPost.media_url || selectedPost.thumbnail_url} alt="" style={{ width: "100%", borderRadius: 3, marginBottom: 12 }} />}
+                {(() => {
+                  const isVid = selectedPost.media_type === "VIDEO";
+                  const src = isVid ? (selectedPost.thumbnail_url || selectedPost.media_url) : (selectedPost.media_url || selectedPost.thumbnail_url);
+                  return src ? <img src={src} alt="" style={{ width: "100%", borderRadius: 3, marginBottom: 12 }} /> : (
+                    <div style={{ width: "100%", aspectRatio: "1", background: C.bg3, borderRadius: 3, marginBottom: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 6 }}>
+                      <div style={{ fontSize: 32 }}>🎬</div>
+                      <div style={{ fontFamily: font.mono, fontSize: 9, color: C.dim, letterSpacing: "0.12em" }}>REEL</div>
+                    </div>
+                  );
+                })()}
                 <div style={{ fontSize: 12, color: C.dim, lineHeight: 1.6, marginBottom: 12 }}>{selectedPost.caption?.slice(0, 200)}</div>
                 {[["Likes", selectedPost.like_count, C.teal], ["Comments", selectedPost.comments_count, C.gold], ["Reach", postInsights?.reach, C.white], ["Saves", postInsights?.saved, C.teal], ["Views", postInsights?.video_views, C.gold]].filter(([, v]) => v).map(([l, v, color], i) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "5px 0", borderBottom: `1px solid ${C.border}` }}>
