@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Reveal from "@/components/Reveal";
 import PremiumCard from "@/components/premium/PremiumCard";
@@ -7,6 +8,36 @@ import GradientText from "@/components/premium/GradientText";
 import GlowButton from "@/components/premium/GlowButton";
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate form submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", company: "", message: "" });
+      
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    }, 1000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
   return (
     <>
       <main className="min-h-screen relative overflow-hidden bg-[#070c10]">
@@ -63,26 +94,122 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* CONTACT OPTIONS */}
+        {/* CONTACT FORM + INFO */}
         <Reveal>
           <section className="relative px-4 sm:px-6 py-20 sm:py-32 section-spacing">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal-500/5 to-transparent pointer-events-none shimmer-bg" />
             
             <div className="max-w-[1400px] mx-auto relative z-10">
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-                {/* Left: Contact Info */}
+                {/* Left: Contact Form */}
+                <div>
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-6 break-words text-white">
+                    Get In Touch
+                  </h2>
+                  <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                    Fill out the form and we'll get back to you within 24 hours.
+                  </p>
+
+                  <PremiumCard glow={true} hover={false} className="card-dramatic bg-gradient-to-br from-teal-500/5 to-cyan-500/5 border-teal-500/20">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      {/* Name */}
+                      <div>
+                        <label htmlFor="name" className="block text-sm font-bold uppercase text-teal-300 mb-2">
+                          Name *
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          required
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-[#0a1015] border border-teal-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 transition-colors"
+                          placeholder="Your name"
+                        />
+                      </div>
+
+                      {/* Email */}
+                      <div>
+                        <label htmlFor="email" className="block text-sm font-bold uppercase text-teal-300 mb-2">
+                          Email *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-[#0a1015] border border-teal-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 transition-colors"
+                          placeholder="your@email.com"
+                        />
+                      </div>
+
+                      {/* Company */}
+                      <div>
+                        <label htmlFor="company" className="block text-sm font-bold uppercase text-teal-300 mb-2">
+                          Company
+                        </label>
+                        <input
+                          type="text"
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 bg-[#0a1015] border border-teal-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 transition-colors"
+                          placeholder="Your company (optional)"
+                        />
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label htmlFor="message" className="block text-sm font-bold uppercase text-teal-300 mb-2">
+                          Message *
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          required
+                          value={formData.message}
+                          onChange={handleChange}
+                          rows={6}
+                          className="w-full px-4 py-3 bg-[#0a1015] border border-teal-500/20 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-teal-500/50 transition-colors resize-none"
+                          placeholder="Tell us about your project..."
+                        />
+                      </div>
+
+                      {/* Submit Button */}
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold uppercase rounded-lg hover:shadow-lg hover:shadow-teal-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? "Sending..." : "Send Message"}
+                      </button>
+
+                      {/* Success Message */}
+                      {submitStatus === "success" && (
+                        <div className="p-4 bg-teal-500/10 border border-teal-500/30 rounded-lg">
+                          <p className="text-teal-300 text-sm font-medium">
+                            ✓ Message sent! We'll get back to you within 24 hours.
+                          </p>
+                        </div>
+                      )}
+                    </form>
+                  </PremiumCard>
+                </div>
+
+                {/* Right: Contact Info + Services */}
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase mb-6 break-words text-white">
-                      Get In Touch
+                    <h2 className="text-2xl sm:text-3xl font-black uppercase mb-6 break-words text-white">
+                      Other Ways to Connect
                     </h2>
-                    <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                      Book a consultation to discuss your marketing systems, automation needs, or VANTIX AI implementation.
-                    </p>
                   </div>
 
                   {/* Contact Methods */}
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <PremiumCard glow hover className="card-dramatic-hover bg-gradient-to-br from-teal-500/5 to-cyan-500/5 border-teal-500/20">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center flex-shrink-0 border border-teal-500/20 icon-float">
@@ -92,7 +219,7 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <h3 className="text-lg font-bold uppercase mb-2 text-teal-300">Email</h3>
-                          <p className="text-gray-400 text-sm mb-2">Get a response within 24 hours</p>
+                          <p className="text-gray-400 text-sm mb-2">Response within 24 hours</p>
                           <a href="mailto:hello@valmontmarketing.com" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">
                             hello@valmontmarketing.com
                           </a>
@@ -109,9 +236,9 @@ export default function ContactPage() {
                         </div>
                         <div>
                           <h3 className="text-lg font-bold uppercase mb-2 text-teal-300">Book Consultation</h3>
-                          <p className="text-gray-400 text-sm mb-2">Schedule a 30-minute strategy call</p>
+                          <p className="text-gray-400 text-sm mb-2">30-minute strategy call</p>
                           <a href="https://calendly.com/valmontmarketing" target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors font-medium">
-                            Book Now →
+                            Schedule Now →
                           </a>
                         </div>
                       </div>
@@ -133,62 +260,24 @@ export default function ContactPage() {
                     </PremiumCard>
                   </div>
 
-                  {/* Quick Stats */}
-                  <div className="grid grid-cols-2 gap-4 pt-8">
-                    <PremiumCard className="bg-teal-500/5 border-teal-500/20 text-center">
-                      <p className="text-3xl font-black text-teal-400 mb-2">24h</p>
-                      <p className="text-xs text-gray-400 uppercase">Response Time</p>
-                    </PremiumCard>
-                    <PremiumCard className="bg-teal-500/5 border-teal-500/20 text-center">
-                      <p className="text-3xl font-black text-teal-400 mb-2">30min</p>
-                      <p className="text-xs text-gray-400 uppercase">Free Consultation</p>
-                    </PremiumCard>
-                  </div>
-                </div>
-
-                {/* Right: What We Offer */}
-                <div>
-                  <h2 className="text-2xl sm:text-3xl font-black uppercase mb-8 break-words text-white">
-                    What We Offer
-                  </h2>
-
-                  <div className="space-y-4">
-                    {[
-                      {
-                        title: "Marketing Systems",
-                        desc: "Complete marketing automation and systems"
-                      },
-                      {
-                        title: "VANTIX AI Implementation",
-                        desc: "AI-powered intelligence layer for your business"
-                      },
-                      {
-                        title: "Growth Strategy",
-                        desc: "Data-driven growth consulting"
-                      },
-                      {
-                        title: "Automation Consulting",
-                        desc: "Workflow automation and optimization"
-                      },
-                      {
-                        title: "Performance Audits",
-                        desc: "Comprehensive marketing and systems audit"
-                      },
-                      {
-                        title: "Custom Solutions",
-                        desc: "Tailored intelligence systems for enterprises"
-                      }
-                    ].map((service, i) => (
-                      <PremiumCard key={i} glow hover delay={i * 0.05} className="card-dramatic-hover bg-gradient-to-br from-teal-500/5 to-cyan-500/5 border-teal-500/20">
-                        <div className="flex items-start gap-3">
-                          <div className="w-2 h-2 rounded-full bg-teal-400 mt-2 flex-shrink-0"></div>
-                          <div>
-                            <h3 className="text-base font-bold uppercase mb-1 text-teal-300">{service.title}</h3>
-                            <p className="text-sm text-gray-400">{service.desc}</p>
-                          </div>
+                  {/* What We Offer */}
+                  <div className="pt-8">
+                    <h3 className="text-xl font-black uppercase mb-4 text-white">What We Offer</h3>
+                    <div className="space-y-3">
+                      {[
+                        "Marketing Systems",
+                        "VANTIX AI Implementation",
+                        "Growth Strategy",
+                        "Automation Consulting",
+                        "Performance Audits",
+                        "Custom Solutions"
+                      ].map((service, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <div className="w-2 h-2 rounded-full bg-teal-400"></div>
+                          <p className="text-sm text-gray-300">{service}</p>
                         </div>
-                      </PremiumCard>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -221,37 +310,6 @@ export default function ContactPage() {
                       Learn About VANTIX AI
                     </GlowButton>
                   </div>
-                </div>
-              </PremiumCard>
-            </div>
-          </section>
-        </Reveal>
-
-        {/* CTA SECTION */}
-        <Reveal>
-          <section className="px-4 sm:px-6 py-24 sm:py-32">
-            <div className="max-w-[1200px] mx-auto">
-              <PremiumCard glow={true} hover={false} className="p-10 sm:p-16 lg:p-24 text-center card-dramatic bg-gradient-to-br from-teal-500/5 to-cyan-500/5 border-teal-500/20">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-8 leading-tight break-words">
-                  <span className="text-white">Ready to </span>
-                  <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text text-transparent animate-gradient-shift">
-                    Transform
-                  </span>
-                  <br />
-                  <span className="text-white">Your Business?</span>
-                </h2>
-                
-                <p className="text-xl text-teal-400 font-bold mb-12">
-                  Let's discuss your growth strategy.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-                  <GlowButton href="mailto:hello@valmontmarketing.com" variant="primary" size="lg">
-                    Send Email
-                  </GlowButton>
-                  <GlowButton href="https://calendly.com/valmontmarketing" variant="secondary" size="lg">
-                    Book Consultation
-                  </GlowButton>
                 </div>
               </PremiumCard>
             </div>
