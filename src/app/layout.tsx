@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ConditionalShell from "@/components/ConditionalShell";
+import VantixNova from "@/components/VantixNova";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         <ConditionalShell>{children}</ConditionalShell>
+        <VantixNova />
       </body>
     </html>
   );
