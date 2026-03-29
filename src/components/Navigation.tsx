@@ -9,7 +9,7 @@ const links = [
   { href: "/", label: "Home" },
   { href: "/systems", label: "Systems" },
   { href: "/intelligence", label: "Intelligence" },
-  { href: "/assurance", label: "VANTIX" },
+  { href: "/assurance", label: "VANTIX AI" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -46,7 +46,7 @@ export default function Navigation() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-sm ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? "glass border-b border-teal/20 shadow-lg"
             : "bg-transparent"
@@ -58,11 +58,11 @@ export default function Navigation() {
             <Link href="/" className="flex items-center gap-2 sm:gap-3 group z-50">
               <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_20px_rgba(0,212,191,0.6)] animate-glow-pulse" />
               <div className="flex flex-col">
-                <span className="text-base sm:text-xl font-bold tracking-tight uppercase">
+                <span className="text-base sm:text-xl font-black tracking-tight font-mono uppercase leading-none">
                   VALMONT
                 </span>
-                <span className="text-[10px] sm:text-xs font-medium text-teal tracking-wide">
-                  Powered by VANTIX
+                <span className="text-[8px] sm:text-[10px] font-medium tracking-wider text-teal/70 uppercase leading-none mt-0.5">
+                  Powered by VANTIX AI
                 </span>
               </div>
             </Link>
