@@ -350,8 +350,8 @@ export default function VantixBrain() {
 
     async function initHands() {
       try {
-        const { Hands }  = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js');
-        const { Camera } = await import(/* webpackIgnore: true */ 'https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js');
+        const { Hands }  = await import('@mediapipe/hands');
+        const { Camera } = await import('@mediapipe/camera_utils');
 
         handsInstance = new Hands({ locateFile: f => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}` });
         handsInstance.setOptions({ maxNumHands: 1, modelComplexity: 0, minDetectionConfidence: 0.7, minTrackingConfidence: 0.5 });
