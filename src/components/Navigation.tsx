@@ -57,14 +57,9 @@ export default function Navigation() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 sm:gap-3 group z-50">
               <div className="w-2 h-2 rounded-full bg-teal shadow-[0_0_20px_rgba(0,212,191,0.6)] animate-glow-pulse" />
-              <div className="flex flex-col">
-                <span className="text-base sm:text-xl font-black tracking-tight font-mono uppercase leading-none">
-                  VALMONT
-                </span>
-                <span className="text-[8px] sm:text-[10px] font-medium tracking-wider text-teal/70 uppercase leading-none mt-0.5">
-                  Powered by VANTIX AI
-                </span>
-              </div>
+              <span className="text-sm sm:text-xl font-bold tracking-tight font-mono uppercase">
+                VALMONTMARKETING
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
