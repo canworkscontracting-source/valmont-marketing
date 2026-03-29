@@ -16,7 +16,7 @@ export default function Footer() {
               for modern organizations.
             </p>
             <p className="text-sm font-medium text-teal">
-              Powered by VANTIX.
+              Powered by VANTIX AI.
             </p>
           </div>
 
@@ -45,7 +45,7 @@ export default function Footer() {
                 href="/assurance" 
                 className="block text-sm text-gray-400 hover:text-teal transition-colors"
               >
-                VANTIX
+                VANTIX AI
               </Link>
             </div>
           </div>
