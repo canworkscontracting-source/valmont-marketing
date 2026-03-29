@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 const C = { bg: "#040810", bg1: "#070d1a", bg2: "#0b1424", bg3: "#0f1c30", teal: "#00D4B4", tealLo: "rgba(0,212,180,0.10)", gold: "#C8A96E", red: "#FF5060", white: "#E8EDF5", dim: "#7A8BA8", border: "rgba(0,212,180,0.10)", borderHi: "rgba(0,212,180,0.28)" };
 const font = { display: "'Rajdhani', sans-serif", body: "'Outfit', sans-serif", mono: "'Space Mono', monospace" };
@@ -31,6 +31,16 @@ export default function VantixDashboard() {
       : [...clients, client];
     setClients(updated);
     LS.set("clients", updated);
+  };
+
+  const deleteClient = (id) => {
+    const updated = clients.filter(c => c.id !== id);
+    setClients(updated);
+    LS.set("clients", updated);
+    if (selectedClient?.id === id) {
+      setSelectedClient(updated[0] || null);
+      LS.set("selected_client_id", updated[0]?.id || null);
+    }
   };
 
   const selectClient = (client) => {
@@ -88,55 +98,61 @@ export default function VantixDashboard() {
 
       {/* Main */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        {/* Header */}
         <div style={{ background: C.bg1, borderBottom: `1px solid ${C.border}`, padding: "14px 28px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ fontFamily: font.display, fontWeight: 700, fontSize: 18, letterSpacing: "0.08em" }}>{activeModule.toUpperCase()}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <select onChange={(e) => { const c = clients.find(x => x.id === e.target.value); if (c) selectClient(c); }} value={selectedClient?.id || ""} style={{ background: C.bg2, border: `1px solid ${C.border}`, color: selectedClient ? C.white : C.dim, padding: "6px 12px", borderRadius: 3, fontFamily: font.body, fontSize: 12 }}>
-              <option value="">Select Client</option>
-              {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </div>
+          <select onChange={(e) => { const c = clients.find(x => x.id === e.target.value); if (c) selectClient(c); }} value={selectedClient?.id || ""} style={{ background: C.bg2, border: `1px solid ${C.border}`, color: selectedClient ? C.white : C.dim, padding: "6px 12px", borderRadius: 3, fontFamily: font.body, fontSize: 12 }}>
+            <option value="">Select Client</option>
+            {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
         </div>
 
-        {/* Content */}
         <div style={{ flex: 1, overflowY: "auto", padding: 28 }}>
-          {activeModule === "Client Profiles" && <ClientProfiles clients={clients} selectedClient={selectedClient} onSave={saveClient} onSelect={selectClient} />}
+          {activeModule === "Client Profiles" && <ClientProfiles clients={clients} selectedClient={selectedClient} onSave={saveClient} onSelect={selectClient} onDelete={deleteClient} />}
           {activeModule === "Intelligence Hub" && <IntelligenceHub client={selectedClient} />}
-          {activeModule === "Competitor Tracker" && <SimpleModule title="Competitor Tracker" description="Select a client to track their competitors." client={selectedClient} />}
-          {activeModule === "Content Lab" && <SimpleModule title="Content Lab" description="Log posts and let VANTIX find patterns." client={selectedClient} />}
-          {activeModule === "Growth Strategy AI" && <SimpleModule title="Growth Strategy AI" description="Generate 30-day growth plans from client data." client={selectedClient} />}
-          {activeModule === "Content Creator AI" && <SimpleModule title="Content Creator AI" description="Generate platform-native content using winning patterns." client={selectedClient} />}
-          {activeModule === "Niche Intelligence" && <SimpleModule title="Niche Intelligence" description="Live market research — trending topics, hashtags, content gaps." client={selectedClient} />}
+          {activeModule !== "Client Profiles" && activeModule !== "Intelligence Hub" && <SimpleModule title={activeModule} client={selectedClient} />}
         </div>
       </div>
     </div>
   );
 }
 
-function SimpleModule({ title, description, client }) {
+function SimpleModule({ title, client }) {
   return (
     <div style={{ background: "#0b1424", border: "1px solid rgba(0,212,180,0.10)", borderRadius: 4, padding: 32, textAlign: "center" }}>
       <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 20, marginBottom: 10 }}>{title}</div>
-      <div style={{ color: "#7A8BA8", fontSize: 13 }}>{client ? `Client: ${client.name} — ${description}` : description}</div>
+      <div style={{ color: "#7A8BA8", fontSize: 13 }}>{client ? `Client: ${client.name}` : "Select a client to get started."}</div>
     </div>
   );
 }
 
-function ClientProfiles({ clients, selectedClient, onSave, onSelect }) {
-  const [form, setForm] = useState({ id: "", name: "", niche: "", industry: "", platforms: [] });
+function ClientProfiles({ clients, selectedClient, onSave, onSelect, onDelete }) {
+  const empty = { id: "", name: "", niche: "", industry: "" };
+  const [form, setForm] = useState(empty);
   const [editing, setEditing] = useState(false);
+  const [isNew, setIsNew] = useState(true);
 
   const newClient = () => {
-    setForm({ id: Date.now().toString(), name: "", niche: "", industry: "", platforms: [] });
+    setForm({ ...empty, id: Date.now().toString() });
+    setIsNew(true);
+    setEditing(true);
+  };
+
+  const editClient = (client) => {
+    setForm({ ...client });
+    setIsNew(false);
     setEditing(true);
   };
 
   const save = () => {
-    if (!form.name) return;
+    if (!form.name.trim()) return;
     onSave(form);
-    onSelect(form);
+    if (isNew) onSelect(form);
     setEditing(false);
+    setForm(empty);
+  };
+
+  const remove = (client) => {
+    if (window.confirm(`Remove ${client.name}?`)) onDelete(client.id);
   };
 
   return (
@@ -148,15 +164,15 @@ function ClientProfiles({ clients, selectedClient, onSave, onSelect }) {
 
       {editing && (
         <div style={{ background: "#0b1424", border: "1px solid rgba(0,212,180,0.28)", borderRadius: 4, padding: 24, marginBottom: 20 }}>
-          <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 16 }}>NEW CLIENT</div>
-          {[["Client Name", "name"], ["Niche", "niche"], ["Industry", "industry"]].map(([label, key]) => (
+          <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 16 }}>{isNew ? "NEW CLIENT" : "EDIT CLIENT"}</div>
+          {[["Client Name *", "name"], ["Niche", "niche"], ["Industry", "industry"]].map(([label, key]) => (
             <div key={key} style={{ marginBottom: 12 }}>
               <div style={{ fontSize: 11, color: "#7A8BA8", fontFamily: "'Space Mono', monospace", letterSpacing: "0.15em", marginBottom: 4 }}>{label.toUpperCase()}</div>
               <input value={form[key]} onChange={e => setForm({...form, [key]: e.target.value})} style={{ width: "100%", background: "#0f1c30", border: "1px solid rgba(0,212,180,0.10)", borderRadius: 3, padding: "8px 12px", color: "#E8EDF5", fontFamily: "'Outfit', sans-serif", fontSize: 13 }} />
             </div>
           ))}
           <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
-            <button onClick={save} style={{ padding: "10px 24px", background: "#00D4B4", color: "#040810", border: "none", borderRadius: 3, fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: "0.15em", cursor: "pointer" }}>SAVE CLIENT</button>
+            <button onClick={save} style={{ padding: "10px 24px", background: "#00D4B4", color: "#040810", border: "none", borderRadius: 3, fontFamily: "'Rajdhani', sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: "0.15em", cursor: "pointer" }}>SAVE</button>
             <button onClick={() => setEditing(false)} style={{ padding: "10px 24px", background: "none", border: "1px solid rgba(0,212,180,0.1)", borderRadius: 3, color: "#7A8BA8", fontSize: 12, cursor: "pointer" }}>CANCEL</button>
           </div>
         </div>
@@ -164,13 +180,19 @@ function ClientProfiles({ clients, selectedClient, onSave, onSelect }) {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
         {clients.map(client => (
-          <div key={client.id} onClick={() => onSelect(client)} style={{ background: selectedClient?.id === client.id ? "rgba(0,212,180,0.08)" : "#0b1424", border: `1px solid ${selectedClient?.id === client.id ? "rgba(0,212,180,0.28)" : "rgba(0,212,180,0.10)"}`, borderRadius: 4, padding: 20, cursor: "pointer" }}>
-            <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{client.name}</div>
-            <div style={{ fontSize: 12, color: "#7A8BA8" }}>{client.niche || client.industry || "No niche set"}</div>
+          <div key={client.id} style={{ background: selectedClient?.id === client.id ? "rgba(0,212,180,0.08)" : "#0b1424", border: `1px solid ${selectedClient?.id === client.id ? "rgba(0,212,180,0.28)" : "rgba(0,212,180,0.10)"}`, borderRadius: 4, padding: 20 }}>
+            <div onClick={() => onSelect(client)} style={{ cursor: "pointer", marginBottom: 12 }}>
+              <div style={{ fontFamily: "'Rajdhani', sans-serif", fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{client.name}</div>
+              <div style={{ fontSize: 12, color: "#7A8BA8" }}>{client.niche || client.industry || "No niche set"}</div>
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button onClick={() => editClient(client)} style={{ padding: "5px 12px", background: "rgba(0,212,180,0.1)", border: "1px solid rgba(0,212,180,0.2)", borderRadius: 3, color: "#00D4B4", fontSize: 11, fontFamily: "'Space Mono', monospace", cursor: "pointer" }}>EDIT</button>
+              <button onClick={() => remove(client)} style={{ padding: "5px 12px", background: "rgba(255,80,96,0.1)", border: "1px solid rgba(255,80,96,0.2)", borderRadius: 3, color: "#FF5060", fontSize: 11, fontFamily: "'Space Mono', monospace", cursor: "pointer" }}>REMOVE</button>
+            </div>
           </div>
         ))}
         {clients.length === 0 && !editing && (
-          <div style={{ color: "#7A8BA8", fontSize: 13, padding: 20 }}>No clients yet. Click "New Client" to add your first one.</div>
+          <div style={{ color: "#7A8BA8", fontSize: 13, padding: 20 }}>No clients yet. Click "+ New Client" to add your first one.</div>
         )}
       </div>
     </div>
@@ -193,9 +215,10 @@ function IntelligenceHub({ client }) {
         }),
       });
       const data = await res.json();
+      if (data.error) throw new Error(data.error);
       const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("\n");
-      setBrief(text || "Error generating brief.");
-    } catch { setBrief("Error. Try again."); }
+      setBrief(text || "No response received.");
+    } catch (e) { setBrief("Error: " + e.message); }
     setLoading(false);
   };
 
