@@ -757,6 +757,20 @@ const TOPICS_DATA = [
 
 export default function VantixNova() {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const id = 'vantix-nova-styles';
+    if (!document.getElementById(id)) {
+      const el = document.createElement('style');
+      el.id = id;
+      el.textContent = styles;
+      document.head.appendChild(el);
+    }
+    return () => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    };
+  }, []);
   const [adminOpen, setAdminOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [activeLang, setActiveLang] = useState(0);
@@ -921,7 +935,7 @@ export default function VantixNova() {
 
   return (
     <div className="nova-root">
-      <style>{styles}</style>
+      
 
       {/* FAB */}
       <button className="nova-fab" onClick={() => setOpen(o => !o)} aria-label="Open VANTIX Nova">
