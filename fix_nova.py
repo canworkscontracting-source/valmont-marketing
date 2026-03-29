@@ -1,29 +1,8 @@
-import re
-
-path = 'src/components/VantixNova.jsx'
-content = open(path).read()
-
-# Remove <style>{styles}</style> from JSX return
+content = open('src/components/VantixNova.jsx').read()
 content = content.replace('<style>{styles}</style>', '')
-
-# Inject useEffect style loader after useState(false)
-old = 'const [open, setOpen] = useState(false);'
-new = '''const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const id = 'vantix-nova-styles';
-    if (!document.getElementById(id)) {
-      const el = document.createElement('style');
-      el.id = id;
-      el.textContent = styles;
-      document.head.appendChild(el);
-    }
-    return () => {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    };
-  }, []);'''
-
-content = content.replace(old, new, 1)
-open(path, 'w').write(content)
-print('Done — styles will now inject client-side via useEffect')
+content = content.replace(
+    'const [open, setOpen] = useState(false);',
+    'const [open, setOpen] = useState(false);\n\n  useEffect(() => {\n    const id = "vantix-nova-styles";\n    if (!document.getElementById(id)) {\n      const el = document.createElement("style");\n      el.id = id;\n      el.textContent = styles;\n      document.head.appendChild(el);\n    }\n  }, []);'
+)
+open('src/components/VantixNova.jsx', 'w').write(content)
+print("Fixed.")

@@ -759,6 +759,16 @@ export default function VantixNova() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    const id = "vantix-nova-styles";
+    if (!document.getElementById(id)) {
+      const el = document.createElement("style");
+      el.id = id;
+      el.textContent = styles;
+      document.head.appendChild(el);
+    }
+  }, []);
+
+  useEffect(() => {
     const id = 'vantix-nova-styles';
     if (!document.getElementById(id)) {
       const el = document.createElement('style');
