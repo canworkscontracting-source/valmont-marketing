@@ -577,6 +577,10 @@ export default function VantixConnections() {
   useEffect(() => {
     setMounted(true);
     try {
+      if (localStorage.getItem("vx_auth") !== "true") {
+        window.location.replace("/vantix/login");
+        return;
+      }
       const clients = JSON.parse(localStorage.getItem("vx_clients") || "[]");
       const selectedId = localStorage.getItem("vx_selected_client_id");
       const found = clients.find(c => c.id === (selectedId ? JSON.parse(selectedId) : null)) || clients[0] || null;
@@ -585,7 +589,9 @@ export default function VantixConnections() {
         const savedToken = localStorage.getItem(`vx_meta_token_${found.id}`);
         if (savedToken) setToken(JSON.parse(savedToken));
       }
-    } catch {}
+    } catch {
+      window.location.replace("/vantix/login");
+    }
   }, []);
 
   if (!mounted) return null;

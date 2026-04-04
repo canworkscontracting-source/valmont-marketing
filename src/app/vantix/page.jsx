@@ -19,6 +19,8 @@ const NAV_ITEMS = [
   { label: "CONTENT", module: "Content Creator AI" },
   { label: "GROWTH", module: "Growth Strategy AI" },
   { label: "COMPETITOR", module: "Competitor Tracker" },
+  { label: "PERFORMANCE", module: "Performance Tracker" },
+  { label: "CALENDAR", module: "Content Calendar" },
   { label: "NICHE", module: "Niche Intelligence" },
   { label: "CONTENT LAB", module: "Content Lab" },
 ];
@@ -200,7 +202,7 @@ function IconBox({ children }) {
 
 /* ─── Nav component ─── */
 
-function TopNav({ activeModule, clients, selectedClient, onNavigate, onSelectClient, menuOpen, setMenuOpen }) {
+function TopNav({ activeModule, clients, selectedClient, onNavigate, onSelectClient, menuOpen, setMenuOpen, onLogout }) {
   return (
     <>
       <nav className="vx-nav">
@@ -242,6 +244,8 @@ function TopNav({ activeModule, clients, selectedClient, onNavigate, onSelectCli
           <a href="/vantix/connections" className="vx-conn-pill">
             <span className="vx-conn-dot" /> CONNECTED ACCOUNTS
           </a>
+          <a href="/vantix/report" target="_blank" rel="noopener noreferrer" className="vx-btn vx-btn-outline vx-btn-sm" style={{ textDecoration: "none" }}>EXPORT REPORT</a>
+          <button className="vx-btn vx-btn-sm" style={{ background: "rgba(255,77,94,0.1)", border: "1px solid rgba(255,77,94,0.25)", color: "#ff4d5e" }} onClick={onLogout}>LOGOUT</button>
         </div>
 
         {/* Hamburger */}
@@ -282,6 +286,10 @@ function TopNav({ activeModule, clients, selectedClient, onNavigate, onSelectCli
                 <option value="">— Select Client —</option>
                 {clients.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
               </select>
+              <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
+                <a href="/vantix/report" target="_blank" rel="noopener noreferrer" className="vx-btn vx-btn-outline vx-btn-sm" style={{ flex: 1, textDecoration: "none", textAlign: "center" }} onClick={() => setMenuOpen(false)}>EXPORT REPORT</a>
+                <button className="vx-btn vx-btn-sm" style={{ flex: 1, background: "rgba(255,77,94,0.1)", border: "1px solid rgba(255,77,94,0.25)", color: "#ff4d5e" }} onClick={() => { onLogout(); setMenuOpen(false); }}>LOGOUT</button>
+              </div>
             </div>
           </div>
         </div>
@@ -298,9 +306,20 @@ export default function VantixDashboard() {
   const [selectedClient, setSelectedClient] = useState(null);
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    try {
+      if (localStorage.getItem("vx_auth") !== "true") {
+        window.location.replace("/vantix/login");
+        return;
+      }
+      setAuthed(true);
+    } catch {
+      window.location.replace("/vantix/login");
+      return;
+    }
     const saved = LS.get("clients", []);
     setClients(saved);
     const selId = LS.get("selected_client_id");
@@ -309,6 +328,11 @@ export default function VantixDashboard() {
       if (found) setSelectedClient(found);
     }
   }, []);
+
+  const logout = () => {
+    try { localStorage.removeItem("vx_auth"); } catch {}
+    window.location.replace("/vantix/login");
+  };
 
   const saveClient = (client) => {
     const updated = clients.find(c => c.id === client.id)
@@ -333,7 +357,7 @@ export default function VantixDashboard() {
     LS.set("selected_client_id", client.id);
   };
 
-  if (!mounted) return null;
+  if (!mounted || !authed) return null;
 
   return (
     <div className="vx-root">
@@ -347,6 +371,7 @@ export default function VantixDashboard() {
         onSelectClient={selectClient}
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
+        onLogout={logout}
       />
 
       <main className="vx-content">
@@ -376,7 +401,10 @@ export default function VantixDashboard() {
         )}
         {activeModule === "Content Creator AI" && <ContentCreatorAI client={selectedClient} />}
         {activeModule === "Growth Strategy AI" && <GrowthStrategyAI client={selectedClient} />}
-        {!["Intelligence Hub", "Client Profiles", "Content Creator AI", "Growth Strategy AI"].includes(activeModule) && (
+        {activeModule === "Competitor Tracker" && <CompetitorTracker client={selectedClient} />}
+        {activeModule === "Performance Tracker" && <PerformanceTracker client={selectedClient} />}
+        {activeModule === "Content Calendar" && <ContentCalendar client={selectedClient} />}
+        {!["Intelligence Hub", "Client Profiles", "Content Creator AI", "Growth Strategy AI", "Competitor Tracker", "Performance Tracker", "Content Calendar"].includes(activeModule) && (
           <SimpleModule title={activeModule} client={selectedClient} />
         )}
       </main>
@@ -739,11 +767,504 @@ function GrowthStrategyAI({ client }) {
   );
 }
 
-/* ─── Simple Module (placeholder for Competitor Tracker, Content Lab, Niche Intelligence) ─── */
+/* ─── Competitor Tracker ─── */
+
+function CompetitorTracker({ client }) {
+  const key = client ? `competitors_${client.id}` : "competitors_global";
+  const [competitors, setCompetitors] = useState([]);
+  const [form, setForm] = useState({ name: "", handle: "", niche: "" });
+  const [adding, setAdding] = useState(false);
+  const [analyzing, setAnalyzing] = useState(null);
+
+  useEffect(() => {
+    setCompetitors(LS.get(key, []));
+  }, [key]);
+
+  const save = (updated) => { setCompetitors(updated); LS.set(key, updated); };
+
+  const addCompetitor = () => {
+    if (!form.name.trim()) return;
+    const entry = { id: Date.now().toString(), ...form, analysis: "", analyzedAt: null };
+    save([...competitors, entry]);
+    setForm({ name: "", handle: "", niche: "" });
+    setAdding(false);
+  };
+
+  const remove = (id) => save(competitors.filter(c => c.id !== id));
+
+  const analyze = async (comp) => {
+    setAnalyzing(comp.id);
+    const clientCtx = client ? `Client: ${client.name} in ${client.niche || client.industry || "marketing"}` : "No specific client context";
+    try {
+      const text = await analyzeWithVantix(
+        "You are VANTIX Competitor Intelligence AI. Provide deep, actionable competitive analysis.",
+        `Analyze competitor "${comp.name}" (Instagram: ${comp.handle || "unknown"}, Niche: ${comp.niche || "unknown"}).\n\n${clientCtx}\n\nProvide:\n1. Content Strategy Analysis — what types of content they likely post, posting frequency, engagement tactics\n2. Strengths & Weaknesses — what they do well vs. gaps to exploit\n3. Growth Patterns — estimated audience growth tactics, what's working for them\n4. Content Gaps — topics they're missing that our client could dominate\n5. 3 Specific Action Items — concrete ways our client can outperform this competitor\n\nBe specific, tactical, and actionable.`
+      );
+      const updated = competitors.map(c => c.id === comp.id ? { ...c, analysis: text, analyzedAt: new Date().toISOString() } : c);
+      save(updated);
+    } catch (e) {
+      const updated = competitors.map(c => c.id === comp.id ? { ...c, analysis: "Error: " + e.message } : c);
+      save(updated);
+    }
+    setAnalyzing(null);
+  };
+
+  return (
+    <div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, gap: 12, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 13, color: C.muted }}>{competitors.length} competitor{competitors.length !== 1 ? "s" : ""} tracked</div>
+        <button className="vx-btn vx-btn-primary vx-btn-sm" onClick={() => setAdding(true)}>+ ADD COMPETITOR</button>
+      </div>
+
+      {!client && (
+        <div className="vx-card" style={{ marginBottom: 18, borderColor: "rgba(0,212,191,0.1)" }}>
+          <div style={{ fontSize: 13, color: C.muted, textAlign: "center", padding: "8px 0" }}>Select a client from the nav to track competitors per client.</div>
+        </div>
+      )}
+
+      {adding && (
+        <div className="vx-card" style={{ borderColor: C.borderHi, marginBottom: 20, background: "rgba(0,212,191,0.03)" }}>
+          <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: C.teal, marginBottom: 18 }}>✦ New Competitor</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(180px,1fr))", gap: 14, marginBottom: 16 }}>
+            {[["Competitor Name *", "name", "e.g. Nike, @competitor"], ["Instagram Handle", "handle", "@handle"], ["Niche / Industry", "niche", "e.g. Fitness, Fashion"]].map(([label, field, ph]) => (
+              <div key={field}>
+                <label className="vx-label">{label}</label>
+                <input className="vx-input" value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={ph} onKeyDown={e => e.key === "Enter" && addCompetitor()} />
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button className="vx-btn vx-btn-primary vx-btn-sm" onClick={addCompetitor}>SAVE</button>
+            <button className="vx-btn vx-btn-outline vx-btn-sm" onClick={() => { setAdding(false); setForm({ name: "", handle: "", niche: "" }); }}>CANCEL</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {competitors.map(comp => (
+          <div key={comp.id} className="vx-card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
+                <div style={{ width: 42, height: 42, borderRadius: "50%", background: C.tealLo, border: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, fontWeight: 800, color: C.teal, flexShrink: 0 }}>
+                  {comp.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 15 }}>{comp.name}</div>
+                  {comp.handle && <div style={{ fontSize: 12, color: C.teal, marginTop: 2 }}>{comp.handle}</div>}
+                  {comp.niche && <div style={{ fontSize: 12, color: C.muted, marginTop: 1 }}>{comp.niche}</div>}
+                  {comp.analyzedAt && <div style={{ fontSize: 11, color: "rgba(255,255,255,0.28)", marginTop: 4 }}>Last analyzed: {new Date(comp.analyzedAt).toLocaleString()}</div>}
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                <button
+                  className="vx-btn vx-btn-primary vx-btn-sm"
+                  onClick={() => analyze(comp)}
+                  disabled={analyzing === comp.id}
+                >
+                  {analyzing === comp.id ? <><div className="vx-spinner" /> ANALYZING…</> : "ANALYZE ›"}
+                </button>
+                <button className="vx-btn vx-btn-danger vx-btn-sm" onClick={() => remove(comp.id)}>REMOVE</button>
+              </div>
+            </div>
+
+            {comp.analysis && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.border}` }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: C.teal, marginBottom: 10, textTransform: "uppercase" }}>Competitor Intelligence</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{comp.analysis}</div>
+              </div>
+            )}
+            {analyzing === comp.id && !comp.analysis && (
+              <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", gap: 10 }}>
+                <Spinner label="VANTIX ANALYZING COMPETITOR…" />
+              </div>
+            )}
+          </div>
+        ))}
+        {competitors.length === 0 && !adding && (
+          <div className="vx-card">
+            <EmptyState icon="🔍" text={'No competitors tracked yet. Click "+ Add Competitor" to start monitoring your client\'s competition.'} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Performance Tracker ─── */
+
+function PerformanceTracker({ client }) {
+  const key = client ? `performance_${client.id}` : "performance_global";
+  const emptyForm = { date: new Date().toISOString().slice(0, 10), followers: "", posts: "", reach: "", impressions: "", engagementRate: "", avgLikes: "", avgComments: "", avgSaves: "", newLeads: "" };
+  const [entries, setEntries] = useState([]);
+  const [form, setForm] = useState(emptyForm);
+  const [logging, setLogging] = useState(false);
+  const [insights, setInsights] = useState({});
+  const [loadingInsight, setLoadingInsight] = useState(null);
+
+  useEffect(() => {
+    setEntries(LS.get(key, []));
+  }, [key]);
+
+  const saveEntries = (updated) => { setEntries(updated); LS.set(key, updated); };
+
+  const addEntry = () => {
+    if (!form.date || !form.followers) return;
+    const entry = { id: Date.now().toString(), ...form };
+    const updated = [entry, ...entries];
+    saveEntries(updated);
+    setForm(emptyForm);
+    setLogging(false);
+  };
+
+  const removeEntry = (id) => saveEntries(entries.filter(e => e.id !== id));
+
+  const growthPct = (curr, prev, field) => {
+    const c = parseFloat(curr[field]);
+    const p = parseFloat(prev[field]);
+    if (!c || !p || p === 0) return null;
+    return (((c - p) / p) * 100).toFixed(1);
+  };
+
+  const getInsight = async (entry) => {
+    setLoadingInsight(entry.id);
+    const clientCtx = client ? `Client: ${client.name} in ${client.niche || client.industry || "marketing"}` : "";
+    try {
+      const text = await analyzeWithVantix(
+        "You are VANTIX Performance AI. Analyze Instagram performance data and provide precise, actionable insights.",
+        `Analyze this Instagram performance data for ${clientCtx}:\n\nDate: ${entry.date}\nFollowers: ${entry.followers}\nPosts: ${entry.posts}\nReach: ${entry.reach}\nImpressions: ${entry.impressions}\nEngagement Rate: ${entry.engagementRate}%\nAvg Likes: ${entry.avgLikes} | Avg Comments: ${entry.avgComments} | Avg Saves: ${entry.avgSaves}\nNew Leads: ${entry.newLeads}\n\nProvide: 1) Performance Assessment (what's strong/weak) 2) Key Growth Lever (the single highest-leverage action) 3) Content Recommendation (what to post more/less of) 4) Next 7 Days Focus. Be specific and tactical.`
+      );
+      setInsights(prev => ({ ...prev, [entry.id]: text }));
+    } catch (e) {
+      setInsights(prev => ({ ...prev, [entry.id]: "Error: " + e.message }));
+    }
+    setLoadingInsight(null);
+  };
+
+  const FIELDS = [
+    ["Date *", "date", "date"], ["Followers *", "followers", "number"], ["Posts", "posts", "number"],
+    ["Reach", "reach", "number"], ["Impressions", "impressions", "number"], ["Engagement Rate (%)", "engagementRate", "text"],
+    ["Avg Likes", "avgLikes", "number"], ["Avg Comments", "avgComments", "number"], ["Avg Saves", "avgSaves", "number"], ["New Leads", "newLeads", "number"],
+  ];
+
+  const totalEntries = entries.length;
+  const overallGrowth = totalEntries >= 2 ? growthPct(entries[0], entries[totalEntries - 1], "followers") : null;
+  const bestEngagement = entries.reduce((best, e) => {
+    const v = parseFloat(e.engagementRate);
+    return (!best || v > parseFloat(best.engagementRate)) ? e : best;
+  }, null);
+
+  return (
+    <div>
+      {/* Summary bar */}
+      {totalEntries > 0 && (
+        <div className="vx-card-grid-3" style={{ marginBottom: 20 }}>
+          {[
+            { label: "Total Entries", value: totalEntries, icon: "📋" },
+            { label: "Overall Follower Growth", value: overallGrowth !== null ? `${overallGrowth > 0 ? "+" : ""}${overallGrowth}%` : "—", icon: "📈", color: overallGrowth > 0 ? C.teal : overallGrowth < 0 ? C.red : C.muted },
+            { label: "Best Engagement Rate", value: bestEngagement?.engagementRate ? `${bestEngagement.engagementRate}%` : "—", icon: "⭐" },
+          ].map(({ label, value, icon, color }) => (
+            <div key={label} className="vx-card" style={{ textAlign: "center" }}>
+              <div style={{ fontSize: 24 }}>{icon}</div>
+              <div style={{ fontSize: 22, fontWeight: 800, color: color || C.white, margin: "8px 0 4px" }}>{value}</div>
+              <div style={{ fontSize: 11, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase" }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20, gap: 12, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 13, color: C.muted }}>{totalEntries} log{totalEntries !== 1 ? "s" : ""} recorded</div>
+        <button className="vx-btn vx-btn-primary vx-btn-sm" onClick={() => setLogging(true)}>+ LOG METRICS</button>
+      </div>
+
+      {logging && (
+        <div className="vx-card" style={{ borderColor: C.borderHi, marginBottom: 20, background: "rgba(0,212,191,0.03)" }}>
+          <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: C.teal, marginBottom: 18 }}>✦ New Performance Log</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", gap: 14, marginBottom: 16 }}>
+            {FIELDS.map(([label, field, type]) => (
+              <div key={field}>
+                <label className="vx-label">{label}</label>
+                <input className="vx-input" type={type} value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} placeholder={type === "number" ? "0" : ""} />
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button className="vx-btn vx-btn-primary vx-btn-sm" onClick={addEntry}>SAVE LOG</button>
+            <button className="vx-btn vx-btn-outline vx-btn-sm" onClick={() => { setLogging(false); setForm(emptyForm); }}>CANCEL</button>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        {entries.map((entry, i) => {
+          const prev = entries[i + 1];
+          const fg = prev ? growthPct(entry, prev, "followers") : null;
+          return (
+            <div key={entry.id} className="vx-card">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12, flexWrap: "wrap", marginBottom: 14 }}>
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: 15 }}>{entry.date}</div>
+                  <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>
+                    {entry.followers && <span><span style={{ color: C.teal, fontWeight: 700 }}>{parseInt(entry.followers).toLocaleString()}</span> followers</span>}
+                    {fg !== null && (
+                      <span style={{ marginLeft: 10, color: fg > 0 ? C.teal : C.red, fontWeight: 700 }}>
+                        {fg > 0 ? "▲" : "▼"} {Math.abs(fg)}% vs prev
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button className="vx-btn vx-btn-outline vx-btn-sm" onClick={() => getInsight(entry)} disabled={loadingInsight === entry.id}>
+                    {loadingInsight === entry.id ? <><div className="vx-spinner" /> ANALYZING…</> : "AI INSIGHTS ›"}
+                  </button>
+                  <button className="vx-btn vx-btn-danger vx-btn-sm" onClick={() => removeEntry(entry.id)}>✕</button>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+                {[["Reach", entry.reach], ["Impressions", entry.impressions], ["Eng. Rate", entry.engagementRate ? entry.engagementRate + "%" : "—"], ["Avg Likes", entry.avgLikes], ["Avg Comments", entry.avgComments], ["Avg Saves", entry.avgSaves], ["New Leads", entry.newLeads]].filter(([, v]) => v).map(([label, val]) => (
+                  <div key={label} style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.white }}>{isNaN(val) ? val : parseInt(val).toLocaleString()}</div>
+                    <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.08em", textTransform: "uppercase" }}>{label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {insights[entry.id] && (
+                <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", color: C.teal, marginBottom: 8, textTransform: "uppercase" }}>AI Insights</div>
+                  <div style={{ fontSize: 13, color: "rgba(255,255,255,0.85)", lineHeight: 1.8, whiteSpace: "pre-wrap" }}>{insights[entry.id]}</div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {entries.length === 0 && !logging && (
+          <div className="vx-card">
+            <EmptyState icon="📊" text={'No performance logs yet. Click "+ Log Metrics" to start tracking your client\'s Instagram growth.'} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Content Calendar ─── */
+
+function ContentCalendar({ client }) {
+  const now = new Date();
+  const [year, setYear] = useState(now.getFullYear());
+  const [month, setMonth] = useState(now.getMonth());
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [posts, setPosts] = useState({});
+  const [postForm, setPostForm] = useState({ platform: "Instagram", contentType: "Reel", caption: "", status: "Planned" });
+  const [generatingIdea, setGeneratingIdea] = useState(false);
+
+  const calKey = (y, m) => client ? `calendar_${client.id}_${y}_${m}` : `calendar_global_${y}_${m}`;
+
+  useEffect(() => {
+    setPosts(LS.get(calKey(year, month), {}));
+  }, [year, month, client]);
+
+  const savePosts = (updated) => { setPosts(updated); LS.set(calKey(year, month), updated); };
+
+  const addPost = () => {
+    if (!selectedDay || !postForm.caption.trim()) return;
+    const dayKey = String(selectedDay);
+    const dayPosts = posts[dayKey] || [];
+    const updated = { ...posts, [dayKey]: [...dayPosts, { id: Date.now().toString(), ...postForm }] };
+    savePosts(updated);
+    setPostForm({ platform: "Instagram", contentType: "Reel", caption: "", status: "Planned" });
+  };
+
+  const removePost = (day, postId) => {
+    const dayKey = String(day);
+    const updated = { ...posts, [dayKey]: (posts[dayKey] || []).filter(p => p.id !== postId) };
+    if (!updated[dayKey].length) delete updated[dayKey];
+    savePosts(updated);
+  };
+
+  const generateIdea = async () => {
+    if (!selectedDay) return;
+    setGeneratingIdea(true);
+    const clientCtx = client ? `Client: ${client.name}, Niche: ${client.niche || client.industry || "marketing"}` : "Marketing agency";
+    try {
+      const text = await analyzeWithVantix(
+        "You are VANTIX Content Calendar AI. Generate specific, platform-tailored content ideas.",
+        `Generate a content idea for ${clientCtx}.\n\nDate: ${year}-${String(month + 1).padStart(2, "0")}-${String(selectedDay).padStart(2, "0")}\nPlatform: ${postForm.platform}\nContent Type: ${postForm.contentType}\n\nProvide: 1) Hook/Title (for Reels/Carousels) or Caption opening line 2) Main content angle 3) Key talking points (3 bullets) 4) CTA suggestion. Keep it sharp and platform-native.`
+      );
+      setPostForm(prev => ({ ...prev, caption: text }));
+    } catch (e) {
+      setPostForm(prev => ({ ...prev, caption: "Error: " + e.message }));
+    }
+    setGeneratingIdea(false);
+  };
+
+  const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  const prevMonth = () => { if (month === 0) { setYear(y => y - 1); setMonth(11); } else setMonth(m => m - 1); setSelectedDay(null); };
+  const nextMonth = () => { if (month === 11) { setYear(y => y + 1); setMonth(0); } else setMonth(m => m + 1); setSelectedDay(null); };
+
+  const PLATFORMS = ["Instagram", "TikTok", "Facebook", "LinkedIn", "YouTube"];
+  const CONTENT_TYPES = ["Reel", "Carousel", "Static Post", "Story", "Live", "Short"];
+  const STATUSES = ["Planned", "In Progress", "Published", "Cancelled"];
+
+  // Platform colors
+  const platColor = { Instagram: "#e1306c", TikTok: "#00f2ea", Facebook: "#1877f2", LinkedIn: "#0a66c2", YouTube: "#ff0000" };
+
+  // Monthly summary
+  const allPosts = Object.values(posts).flat();
+  const byPlatform = PLATFORMS.reduce((acc, p) => { acc[p] = allPosts.filter(x => x.platform === p).length; return acc; }, {});
+  const published = allPosts.filter(p => p.status === "Published").length;
+  const planned = allPosts.filter(p => p.status !== "Published").length;
+
+  return (
+    <div>
+      {/* Month summary bar */}
+      {allPosts.length > 0 && (
+        <div className="vx-card" style={{ marginBottom: 18, padding: "14px 20px" }}>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase", flexShrink: 0 }}>This Month:</div>
+            {PLATFORMS.filter(p => byPlatform[p] > 0).map(p => (
+              <div key={p} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: C.white }}>
+                <div style={{ width: 8, height: 8, borderRadius: "50%", background: platColor[p] || C.teal }} />
+                <span style={{ color: C.muted }}>{p}</span> <strong>{byPlatform[p]}</strong>
+              </div>
+            ))}
+            <div style={{ marginLeft: "auto", display: "flex", gap: 14 }}>
+              <div style={{ fontSize: 12 }}><span style={{ color: C.teal, fontWeight: 700 }}>{published}</span> <span style={{ color: C.muted }}>published</span></div>
+              <div style={{ fontSize: 12 }}><span style={{ color: C.muted, fontWeight: 700 }}>{planned}</span> <span style={{ color: C.muted }}>planned</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: "grid", gridTemplateColumns: selectedDay ? "1fr 340px" : "1fr", gap: 20 }}>
+        {/* Calendar */}
+        <div className="vx-card" style={{ padding: "20px" }}>
+          {/* Month navigation */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+            <button className="vx-btn vx-btn-outline vx-btn-sm" onClick={prevMonth}>‹ PREV</button>
+            <div style={{ fontWeight: 800, fontSize: 16, letterSpacing: "0.06em" }}>{MONTHS[month]} {year}</div>
+            <button className="vx-btn vx-btn-outline vx-btn-sm" onClick={nextMonth}>NEXT ›</button>
+          </div>
+
+          {/* Day headers */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 4, marginBottom: 4 }}>
+            {DAYS_OF_WEEK.map(d => (
+              <div key={d} style={{ textAlign: "center", fontSize: 10, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", padding: "6px 0" }}>{d}</div>
+            ))}
+          </div>
+
+          {/* Calendar grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: 4 }}>
+            {Array.from({ length: firstDay }).map((_, i) => <div key={`e${i}`} />)}
+            {Array.from({ length: daysInMonth }).map((_, i) => {
+              const day = i + 1;
+              const dayPosts = posts[String(day)] || [];
+              const isToday = day === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+              const isSelected = day === selectedDay;
+              return (
+                <div
+                  key={day}
+                  onClick={() => setSelectedDay(day === selectedDay ? null : day)}
+                  style={{
+                    minHeight: 52, border: `1px solid ${isSelected ? C.teal : isToday ? "rgba(0,212,191,0.4)" : C.border}`,
+                    borderRadius: 6, padding: "6px", cursor: "pointer", background: isSelected ? "rgba(0,212,191,0.08)" : isToday ? "rgba(0,212,191,0.04)" : "transparent",
+                    transition: "all 0.15s", position: "relative",
+                  }}
+                >
+                  <div style={{ fontSize: 12, fontWeight: isToday ? 800 : 500, color: isToday ? C.teal : C.white, marginBottom: 4 }}>{day}</div>
+                  {dayPosts.length > 0 && (
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                      {dayPosts.slice(0, 3).map(p => (
+                        <div key={p.id} style={{ width: 6, height: 6, borderRadius: "50%", background: platColor[p.platform] || C.teal }} />
+                      ))}
+                      {dayPosts.length > 3 && <div style={{ fontSize: 9, color: C.muted }}>+{dayPosts.length - 3}</div>}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Side panel */}
+        {selectedDay && (
+          <div className="vx-card" style={{ maxHeight: "70vh", overflowY: "auto" }}>
+            <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: C.teal, marginBottom: 16 }}>
+              {MONTHS[month]} {selectedDay}, {year}
+            </div>
+
+            {/* Existing posts */}
+            {(posts[String(selectedDay)] || []).map(p => (
+              <div key={p.id} style={{ background: C.bg3, borderRadius: 6, padding: "10px 12px", marginBottom: 10, border: `1px solid ${C.border}`, position: "relative" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: platColor[p.platform] || C.teal }} />
+                  <span style={{ fontSize: 11, fontWeight: 700, color: C.teal, letterSpacing: "0.08em" }}>{p.platform}</span>
+                  <span style={{ fontSize: 11, color: C.muted }}>· {p.contentType}</span>
+                  <span style={{ marginLeft: "auto", fontSize: 10, color: p.status === "Published" ? C.teal : C.muted, fontWeight: 700 }}>{p.status}</span>
+                </div>
+                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.75)", lineHeight: 1.5, marginBottom: 8, maxHeight: 60, overflow: "hidden" }}>{p.caption}</div>
+                <button className="vx-btn vx-btn-danger vx-btn-sm" onClick={() => removePost(selectedDay, p.id)} style={{ fontSize: 10, padding: "4px 10px", minHeight: 28 }}>REMOVE</button>
+              </div>
+            ))}
+
+            {/* Add post form */}
+            <div style={{ borderTop: (posts[String(selectedDay)] || []).length > 0 ? `1px solid ${C.border}` : "none", paddingTop: (posts[String(selectedDay)] || []).length > 0 ? 14 : 0 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 12 }}>Add Post</div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+                <div>
+                  <label className="vx-label">Platform</label>
+                  <select className="vx-select" style={{ width: "100%", fontSize: 12 }} value={postForm.platform} onChange={e => setPostForm(f => ({ ...f, platform: e.target.value }))}>
+                    {PLATFORMS.map(p => <option key={p}>{p}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="vx-label">Content Type</label>
+                  <select className="vx-select" style={{ width: "100%", fontSize: 12 }} value={postForm.contentType} onChange={e => setPostForm(f => ({ ...f, contentType: e.target.value }))}>
+                    {CONTENT_TYPES.map(t => <option key={t}>{t}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div style={{ marginBottom: 10 }}>
+                <label className="vx-label">Status</label>
+                <select className="vx-select" style={{ width: "100%", fontSize: 12 }} value={postForm.status} onChange={e => setPostForm(f => ({ ...f, status: e.target.value }))}>
+                  {STATUSES.map(s => <option key={s}>{s}</option>)}
+                </select>
+              </div>
+              <div style={{ marginBottom: 10 }}>
+                <label className="vx-label">Caption / Notes</label>
+                <textarea
+                  className="vx-input"
+                  value={postForm.caption}
+                  onChange={e => setPostForm(f => ({ ...f, caption: e.target.value }))}
+                  placeholder="Write caption or notes…"
+                  rows={4}
+                  style={{ resize: "vertical", minHeight: 80 }}
+                />
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <button className="vx-btn vx-btn-outline vx-btn-sm vx-btn-full" onClick={generateIdea} disabled={generatingIdea}>
+                  {generatingIdea ? <><div className="vx-spinner" /> GENERATING…</> : "GENERATE CONTENT IDEA ›"}
+                </button>
+                <button className="vx-btn vx-btn-primary vx-btn-sm vx-btn-full" onClick={addPost} disabled={!postForm.caption.trim()}>+ ADD POST</button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Simple Module (placeholder for Content Lab, Niche Intelligence) ─── */
 
 function SimpleModule({ title, client }) {
   const META = {
-    "Competitor Tracker": { icon: "🔍", desc: "Track competitor accounts, content strategies, and growth patterns. Identify gaps and opportunities in your client's niche." },
     "Content Lab": { icon: "🧪", desc: "A creative workspace for testing content angles, hooks, and formats before publishing. Iterate fast, win big." },
     "Niche Intelligence": { icon: "🧠", desc: "Deep-dive intelligence on any niche — top creators, content pillars, audience psychology, and monetization strategies." },
   };
