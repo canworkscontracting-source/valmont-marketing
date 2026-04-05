@@ -79,7 +79,8 @@ const CSS = `
   .vx-logout-btn:hover { color:#ff4757; }
 
   /* ── MAIN CONTENT ── */
-  .vx-main { flex:1; min-width:0; overflow-y:auto; animation:vx-fade 0.2s ease; }
+  .vx-main { flex:1; min-width:0; overflow-y:auto; animation:vx-fade 0.2s ease; position:relative; }
+  .vx-main-brain { overflow:hidden; }
   .vx-section { padding:28px 32px; max-width:1400px; }
 
   /* ── SECTION HEADER ── */
@@ -191,6 +192,9 @@ const CSS = `
     .vx-intel-ops-layout { grid-template-columns:1fr !important; }
   }
   @media (min-width:768px) { .vx-mobile-hide { display:none !important; } }
+
+  /* ── Hide global Nova chat bubble on all VANTIX pages ── */
+  .vn-fab, .vn-panel { display:none !important; }
 `;
 
 /* ─── Shared micro-components ─── */
@@ -279,7 +283,7 @@ export default function VantixDashboard() {
         </aside>
 
         {/* Main */}
-        <main className="vx-main">
+        <main className={`vx-main${section === "brain" ? " vx-main-brain" : ""}`}>
           {section === "intelligence" && <IntelligencePage client={selectedClient} />}
           {section === "clients" && <ClientsPage clients={clients} selectedClient={selectedClient} onSave={saveClient} onSelect={selectClient} onDelete={deleteClient} />}
           {section === "operations" && <OperationsPage client={selectedClient} />}
@@ -1135,7 +1139,7 @@ function IntelOpsPage({ client }) {
 ═══════════════════════════════════════════ */
 function BrainPage() {
   return (
-    <div style={{ height: "calc(100vh - 48px)", width: "100%", background: C.bg, position: "relative" }}>
+    <div style={{ position: "absolute", inset: 0, background: C.bg }}>
       <VantixBrain />
     </div>
   );
